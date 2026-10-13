@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · 页面不存在 · 杰克陈</title>
+<style>
+:root{
+  --bg0:#0A0908; --line:rgba(217,181,125,.18);
+  --f0:#F5EDDD; --f1:#B7A488; --f2:#7E7060; --ac:#D9B57D;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg0);color:var(--f0);font-family:system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+.mono{font-family:ui-monospace,'Cascadia Code',Consolas,Menlo,monospace}
+::selection{background:var(--ac);color:#1A1408}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:rgba(217,181,125,.3);border-radius:8px}
+
+/* ===== 曜石金晕 ===== */
+.obs{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.obs::before,.obs::after{content:'';position:absolute;border-radius:50%;filter:blur(90px)}
+.obs::before{width:55vw;height:55vw;left:30vw;top:-30vw;
+  background:radial-gradient(circle,rgba(217,181,125,.16),transparent 65%);animation:breathe 9s ease-in-out infinite}
+.obs::after{width:40vw;height:40vw;right:-12vw;bottom:-10vw;
+  background:radial-gradient(circle,rgba(180,130,60,.12),transparent 65%);animation:breathe 11s ease-in-out infinite .8s}
+@keyframes breathe{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
+.lines{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:repeating-linear-gradient(0deg,transparent 0 79px,rgba(217,181,125,.04) 79px 80px),
+                   repeating-linear-gradient(90deg,transparent 0 79px,rgba(217,181,125,.04) 79px 80px)}
+
+/* ===== 顶栏 ===== */
+header{display:flex;align-items:center;justify-content:space-between;
+  padding:16px 22px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--f0);font-weight:700;letter-spacing:.02em}
+.brand .diamond{width:9px;height:9px;background:linear-gradient(135deg,#F0DCAE,#D9B57D);transform:rotate(45deg);border-radius:2px}
+.hbtns{display:flex;align-items:center;gap:10px}
+.home-link{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--f1);font-size:13px;
+  border:1px solid var(--line);border-radius:10px;padding:7px 13px;transition:.2s}
+.home-link:hover{color:var(--ac);border-color:rgba(217,181,125,.45);background:rgba(217,181,125,.06)}
+
+/* ===== 主体 ===== */
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 20px}
+.wrap{max-width:560px;width:100%;text-align:center}
+.wrap{background:linear-gradient(160deg,rgba(255,240,210,.07),rgba(217,181,125,.03));
+  backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);
+  border-radius:20px;position:relative;padding:56px 28px 48px}
+.wrap::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(140deg,rgba(245,224,180,.7),rgba(217,181,125,.12) 30%,rgba(120,90,40,.08) 60%,rgba(233,206,150,.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.wrap::after{content:'';position:absolute;top:0;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,240,200,.7),transparent)}
+.code{font-size:clamp(88px,22vw,150px);font-weight:800;line-height:1;letter-spacing:.02em;
+  background:linear-gradient(135deg,#F5EDDD 10%,#D9B57D 45%,#8A6A35 90%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 6px 24px rgba(217,181,125,.28))}
+.kicker{font-size:11px;letter-spacing:.24em;color:var(--f2);margin-bottom:18px}
+.msg{color:var(--f1);font-size:15.5px;line-height:1.8;margin:22px auto 30px;max-width:40ch}
+.msg b{color:var(--ac);font-weight:600}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;text-decoration:none;border-radius:12px;
+  padding:12px 22px;font-size:14px;font-weight:600;transition:.2s}
+.btn-gold{background:linear-gradient(135deg,#E8CE9A,#C9A268);color:#1A1408;box-shadow:0 8px 24px -8px rgba(217,181,125,.55)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 30px -8px rgba(217,181,125,.7)}
+.btn-ghost{color:var(--f1);border:1px solid var(--line)}
+.btn-ghost:hover{color:var(--ac);border-color:rgba(217,181,125,.45);background:rgba(217,181,125,.06)}
+.hint{margin-top:26px;font-size:11px;color:var(--f2)}
+
+footer{border-top:1px solid var(--line);padding:18px 22px;text-align:center;color:var(--f2);font-size:12px}
+footer a{color:var(--f1);text-decoration:none}
+footer a:hover{color:var(--ac)}
+</style>
+</head>
+<body>
+<div class="obs"></div>
+<div class="lines"></div>
+
+<header>
+  <a class="brand" href="index.html"><span class="diamond"></span>杰克陈</a>
+  <div class="hbtns">
+    <a class="home-link" href="index.html">⌂ 首页</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="kicker mono">ERROR 404 · PAGE NOT FOUND</p>
+    <div class="code mono">404</div>
+    <p class="msg">这个页面不存在，或者已经被移动了。<br>别担心，<b>真正的工具都在首页</b>。</p>
+    <div class="btns">
+      <a class="btn btn-gold" href="index.html">← 返回首页</a>
+      <a class="btn btn-ghost" href="radio.html">♪ 听收音机</a>
+    </div>
+    <p class="hint mono">或使用右下角色环 / 导航面板前往任意版本</p>
+  </div>
+</main>
+
+<footer>杰克陈 · 独立开发者 · <a href="index.html">作品集</a></footer>
+
+<!-- ===== STYLE SWITCHER (A 面板 + B 悬浮色环) BEGIN ===== -->
+<style>
+#sw-panel{position:fixed;top:60px;right:16px;width:320px;max-width:calc(100vw - 24px);z-index:200;
+  background:rgba(10,12,19,.92);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:14px;
+  box-shadow:0 18px 50px -12px rgba(0,0,0,.7);opacity:0;transform:translateY(-8px) scale(.97);pointer-events:none;
+  transition:opacity .2s,transform .2s}
+#sw-panel.sw-show{opacity:1;transform:none;pointer-events:auto}
+#sw-panel .sw-h{font-family:ui-monospace,Consolas,Menlo,monospace;font-size:10px;letter-spacing:.18em;color:#8b93a7;margin-bottom:10px}
+#sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.sw-app{grid-column:1/-1;background:rgba(245,158,11,.10);border-color:rgba(245,158,11,.42)}.sw-app:hover{background:rgba(245,158,11,.20)!important}.sw-app .sw-en{color:#E8B060}
+.sw-card{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.035);text-decoration:none;
+  color:#e8eaee;transition:.18s;position:relative}
+.sw-card:hover{background:rgba(255,255,255,.09);transform:translateY(-1px)}
+.sw-card.sw-cur{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.08)}
+.sw-dot{width:15px;height:15px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,.25)}
+.sw-card .sw-nm{font-size:13px;font-weight:600;line-height:1.15;display:block}
+.sw-card .sw-en{font-family:ui-monospace,Consolas,Menlo,monospace;font-size:9px;color:#8b93a7;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sw-card.sw-cur::after{content:'当前';position:absolute;top:5px;right:7px;font-family:ui-monospace,Consolas,monospace;font-size:8px;color:#9be8ff}
+.sw-note{font-size:10px;color:#6b7280;margin-top:10px;line-height:1.5}
+
+#sw-dock{position:fixed;right:20px;bottom:122px;width:48px;height:48px;z-index:200}
+#sw-dockbtn{position:absolute;right:0;bottom:0;width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;z-index:2;
+  background:conic-gradient(from 200deg,#22D3EE,#8B5CF6,#F472D0,#D9B57D,#22D3EE);
+  box-shadow:0 6px 22px -4px rgba(34,211,238,.55),inset 0 0 0 2px rgba(255,255,255,.18);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;display:grid;place-items:center}
+#sw-dock.sw-open #sw-dockbtn{transform:rotate(135deg) scale(1.06);box-shadow:0 6px 28px -2px rgba(244,114,208,.65),inset 0 0 0 2px rgba(255,255,255,.28)}
+.sw-di{position:absolute;right:8px;bottom:8px;width:30px;height:30px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);cursor:pointer;opacity:0;transform:translate(0,0) scale(.2);
+  transition:transform .42s cubic-bezier(.34,1.56,.64,1),opacity .28s;z-index:1;padding:0}
+#sw-dock.sw-open .sw-di{opacity:1}
+.sw-di:hover{border-color:#fff;z-index:3}
+.sw-di.sw-cur{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.35),0 0 12px rgba(255,255,255,.5)}
+.sw-tip{position:absolute;right:38px;top:50%;transform:translateY(-50%);background:rgba(10,12,19,.94);
+  padding:3px 9px;border-radius:7px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;
+  transition:opacity .18s;border:1px solid rgba(255,255,255,.14);color:#e8eaee}
+.sw-di:hover .sw-tip{opacity:1}
+/* 触屏：名称常驻、显示在色点上方 */
+@media (hover:none){
+  #sw-dock.sw-touch .sw-tip{opacity:1;right:50%;top:auto;bottom:34px;transform:translateX(50%);font-size:10px;padding:2px 7px}
+  #sw-dock{--sw-r:72px}
+}
+@media(max-width:640px){#sw-panel{top:56px}#sw-dock{--sw-r:72px}}
+</style>
+
+<div id="sw-panel" role="dialog" aria-label="选择页面风格">
+  <p class="sw-h">CHOOSE YOUR STYLE</p>
+  <div id="sw-grid"></div>
+  <p class="sw-note">八个版本内容完全一致，仅视觉风格不同。当前风格已标记。</p>
+</div>
+
+<div id="sw-dock">
+  <button id="sw-dockbtn" aria-label="切换页面风格" title="切换页面风格">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1-2-2c0-1.1.9-2 2-2h2.5a4.5 4.5 0 0 0 4.5-4.5A10 10 0 0 0 12 2z"/></svg>
+  </button>
+</div>
+
+<script>
+(function(){
+  if(window.__swInited)return;window.__swInited=1;
+  var STYLES=[
+    {n:'鎏金',e:'Obsidian Gold',c:'#D9B57D',u:'index.html'},
+    {n:'几何',e:'Geometry',c:'#38BDF8',u:'index2.html'},
+    {n:'电路',e:'Circuit',c:'#2DD4BF',u:'index3.html'},
+    {n:'紫玻璃',e:'Purple Glass',c:'#8B5CF6',u:'index4.html'},
+    {n:'极光',e:'Aurora',c:'#5EEAD4',u:'index5.html'},
+    {n:'终端',e:'Terminal',c:'#22D3EE',u:'index6.html'},
+    {n:'霓虹',e:'Neon AI Core',c:'#F472D0',u:'index7.html',g:true},
+    {n:'北欧',e:'Nordic',c:'#A8A29E',u:'index8.html'},
+  ];
+  var APPS=[
+    {n:'收音机',e:'Radio Box',c:'#F59E0B',u:'radio.html',r:true},
+    {n:'物业台账',e:'Property Ledger',c:'#D9B57D',u:'property-ledger.html',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'}
+  ];
+  var page=(location.pathname.split('/').pop()||'index.html').split('?')[0];
+  var PALETTE='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1-2-2c0-1.1.9-2 2-2h2.5a4.5 4.5 0 0 0 4.5-4.5A10 10 0 0 0 12 2z"/></svg>';
+
+  /* ---- A：导航按钮（插入首页链接旁，融入本页） ---- */
+  var panel=document.getElementById('sw-panel'),grid=document.getElementById('sw-grid');
+  function mkNavBtn(cls){
+    var b=document.createElement('button');
+    b.type='button';b.setAttribute('aria-label','切换页面风格');b.title='切换页面风格';
+    b.className=cls;b.innerHTML=PALETTE;
+    b.addEventListener('click',function(e){e.stopPropagation();togglePanel();});
+    return b;
+  }
+  var desk=document.querySelector('.home-link');
+  if(desk&&desk.parentNode)desk.parentNode.insertBefore(mkNavBtn('home-link'),desk);
+
+  /* ---- A：面板卡片（8 风格 + 独立「在线体验区」） ---- */
+  function mkCard(s){
+    var a=document.createElement('a');
+    a.href=s.u;a.className='sw-card'+(s.r?' sw-app':'')+(s.u===page?' sw-cur':'');
+    if(s.css)a.style.cssText=s.css;
+    a.innerHTML='<span class="sw-dot" style="background:'+(s.g?'linear-gradient(135deg,#22D3EE,#F472D0)':s.c)+';box-shadow:0 0 9px '+s.c+'80"></span>'+
+      '<span style="min-width:0"><span class="sw-nm">'+s.n+'</span><span class="sw-en">'+s.e+'</span></span>';
+    return a;
+  }
+  STYLES.forEach(function(s){grid.appendChild(mkCard(s));});
+  var zone=document.createElement('div');
+  zone.style.cssText='grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:5px 0 2px';
+  zone.innerHTML='<span style="font-family:ui-monospace,Consolas,monospace;font-size:9px;letter-spacing:.16em;color:#E8B060;white-space:nowrap">✦ 在线体验区</span><span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(217,181,125,.5),transparent)"></span>';
+  grid.appendChild(zone);
+  APPS.forEach(function(s){grid.appendChild(mkCard(s));});
+  function togglePanel(force){
+    var show=force!==undefined?force:!panel.classList.contains('sw-show');
+    panel.classList.toggle('sw-show',show);
+    if(show)closeDock();
+  }
+  document.addEventListener('click',function(e){
+    if(panel.classList.contains('sw-show')&&!panel.contains(e.target)&&!e.target.closest('.home-link')&&!e.target.hasAttribute('aria-label'))
+      panel.classList.remove('sw-show');
+  });
+
+  /* ---- B：扇形 dock ---- */
+  var dock=document.getElementById('sw-dock'),dbtn=document.getElementById('sw-dockbtn');
+  var N=STYLES.length+APPS.length, A0=-150,A1=-30;
+  function radius(){var cs=getComputedStyle(dock);var v=parseInt(cs.getPropertyValue('--sw-r'));return(!isNaN(v)&&v)||(window.innerWidth<=640?72:100);}
+  var items=[];
+  STYLES.concat(APPS).forEach(function(s,i){
+    var ang=(A0+(A1-A0)*i/(N-1))*Math.PI/180;
+    var b=document.createElement('a');
+    b.href=s.u;b.className='sw-di'+(s.u===page?' sw-cur':'');
+    b.title=s.n+' · '+s.e;
+    b.style.background=s.g?'linear-gradient(135deg,#22D3EE,#F472D0)':s.c;
+    b.style.boxShadow='0 0 11px '+s.c+'99';
+    b.innerHTML='<span class="sw-tip">'+s.n+' · '+s.e+'</span>';
+    b._x=Math.cos(ang);b._y=Math.sin(ang);b._i=i;
+    dock.appendChild(b);items.push(b);
+  });
+  if(window.matchMedia('(hover: none)').matches)dock.classList.add('sw-touch');
+  function openDock(show){
+    dock.classList.toggle('sw-open',show);
+    var R=radius();
+    items.forEach(function(b,i){
+      if(show){
+        setTimeout(function(){b.style.transform='translate('+(b._x*R)+'px,'+(b._y*R)+'px) scale(1)';b.style.transitionDelay=(i*35)+'ms';},10);
+      }else{
+        b.style.transform='translate(0,0) scale(.2)';b.style.transitionDelay='0ms';
+      }
+    });
+    if(show)panel.classList.remove('sw-show');
+  }
+  function closeDock(){if(dock.classList.contains('sw-open'))openDock(false);}
+  dbtn.addEventListener('click',function(e){e.stopPropagation();openDock(!dock.classList.contains('sw-open'));});
+  document.addEventListener('click',function(e){
+    if(dock.classList.contains('sw-open')&&!dock.contains(e.target))openDock(false);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){panel.classList.remove('sw-show');openDock(false);}
+  });
+  window.addEventListener('resize',function(){if(dock.classList.contains('sw-open')){var R=radius();items.forEach(function(b){b.style.transform='translate('+(b._x*R)+'px,'+(b._y*R)+'px) scale(1)';});}});
+})();
+</script>
+<!-- ===== STYLE SWITCHER END ===== -->
+
+</body>
+</html>

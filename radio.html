@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>网络收音机 v1.3 · 杰克陈</title>
+<style>
+:root{--bg:#0d1117;--card:#161d27;--line:#26313f;--t:#e6ebf0;--dim:#8b9bb0;
+--acc:#7ee787;--cyan:#2f81f7;--yel:#f2cc60;--red:#f47067}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--t);max-width:560px;margin:0 auto;padding:14px;
+font:16px/1.5 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+h1{font-size:19px;color:var(--acc);flex:1}
+.ver{font-size:11px;color:var(--dim);background:var(--card);border:1px solid var(--line);
+border-radius:10px;padding:2px 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+padding:14px;margin-bottom:12px}
+#now{font-size:18px;font-weight:600;color:var(--acc);white-space:nowrap;
+overflow:hidden;text-overflow:ellipsis}
+.chips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.chip{font-size:12px;padding:2px 8px;border-radius:10px;background:var(--line);
+color:var(--dim);white-space:nowrap}
+.chip.ok{color:var(--acc)}.chip.warn{color:var(--yel)}.chip.err{color:var(--red)}
+.row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+button{background:var(--line);color:var(--t);border:0;border-radius:10px;
+font-size:16px;padding:10px 0;flex:1;max-width:110px;cursor:pointer}
+button:active{filter:brightness(1.35)}
+button.main{background:var(--cyan);font-weight:600;color:#fff}
+button.favb{flex:0 0 auto;max-width:none;padding:10px 12px;font-size:17px}
+button.favb.on{color:var(--yel)}
+.vrow{display:flex;align-items:center;gap:10px;margin-top:12px}
+.vrow .lb{font-size:13px;color:var(--dim);flex:0 0 auto}
+.vrow .vv{font-size:13px;color:var(--acc);width:2.6em;text-align:right;flex:0 0 auto}
+input[type=range]{flex:1;accent-color:var(--acc)}
+.optrow{display:flex;align-items:center;gap:8px;margin-top:12px;
+font-size:13px;color:var(--dim);flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{flex:0 0 auto;max-width:none;padding:6px 12px;font-size:13px;
+border-radius:0;background:var(--card);color:var(--dim)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--cyan);color:#fff;font-weight:600}
+.sw{margin-left:auto;font-size:12px;color:var(--dim);display:flex;align-items:center;gap:6px}
+.sw b{cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:2px 10px;
+font-weight:400;color:var(--dim)}
+.sw b.on{color:var(--acc);border-color:var(--acc)}
+#sleepleft{color:var(--yel);font-size:12px}
+#q{width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;
+color:var(--t);font-size:14px;padding:9px 12px;margin-bottom:12px;outline:none}
+#q:focus{border-color:var(--cyan)}
+.grp{border:1px solid var(--line);border-left:4px solid var(--gc,#2f81f7);
+border-radius:12px;padding:10px 10px 4px;margin-bottom:10px;background:var(--gcb,transparent)}
+.grp h3{font-size:13px;color:var(--gc,#7ee787);font-weight:600;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+/* min-width:0 必需：grid 项默认 min-width:auto，长台名（nowrap）会把 1fr 轨道撑破 */
+.grid button{padding:9px 4px 7px;font-size:13px;border-radius:8px;max-width:none;
+min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:4px}
+.grid button .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.grid button.on{background:var(--cyan);color:#fff;outline:2px solid var(--acc)}
+.grid button .hlrow{display:flex;align-items:center;justify-content:center;gap:4px}
+.grid button .hlrow em{font-size:10px;font-style:normal;color:var(--dim);min-height:12px}
+.led{display:block;width:14px;height:5px;border-radius:3px;background:var(--line);
+flex:0 0 auto;animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.3}50%{opacity:1}}
+.led.h-ok{background:#3fb950}.led.h-err{background:var(--red)}.led.h-new{background:var(--line)}
+@media (max-width:390px){.grid{grid-template-columns:repeat(3,1fr)}}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--dim);margin-bottom:10px}
+.legend span{display:flex;align-items:center;gap:4px}
+.legend i{display:block;width:14px;height:5px;border-radius:3px}
+h2{font-size:13px;color:var(--dim);margin:14px 0 8px;font-weight:400;
+display:flex;align-items:center;gap:8px}
+#chkall{max-width:none;flex:0 0 auto;padding:3px 10px;font-size:12px;
+border-radius:8px;background:var(--line);color:var(--dim)}
+#chkall.busy{color:var(--yel)}
+footer{font-size:11px;color:#4a5a6d;text-align:center;margin-top:16px;line-height:1.7}
+footer .ft1{font-size:12px;color:var(--dim)}
+footer nav{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:center}
+footer nav b{color:var(--dim);font-weight:400}
+footer a,.ghub{color:#6aa0ff;text-decoration:none}
+footer a:hover,.ghub:hover{color:var(--acc);text-decoration:underline}
+.ghub{font-size:12px;background:var(--card);border:1px solid var(--line);
+border-radius:10px;padding:3px 10px;white-space:nowrap}
+.empty{color:var(--dim);font-size:13px;text-align:center;padding:18px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎵 网络收音机</h1>
+  <span class="ver">v1.3</span>
+  <a class="ghub" href="index.html">← 返回首页</a>
+  <a class="ghub" href="https://github.com/szboboxing/Radio-Box" target="_blank" rel="noopener">GitHub ↗</a>
+</header>
+
+<div class="card">
+  <div id="now">未播放</div>
+  <div class="chips">
+    <span class="chip" id="st">就绪</span>
+    <span class="chip" id="buf">本机缓冲 —</span>
+    <span class="chip" id="sleepleft" style="display:none"></span>
+  </div>
+  <div class="row">
+    <button onclick="prev()">⏮ 上一台</button>
+    <button class="main" id="pp" onclick="toggle()">▶ 播放</button>
+    <button onclick="next()">下一台 ⏭</button>
+    <button onclick="stopAll()">⏹ 停止</button>
+    <button class="favb" id="favb" onclick="favToggle()" title="收藏当前电台">☆</button>
+  </div>
+  <div class="vrow">
+    <span class="lb">🔊 音量</span>
+    <input type="range" id="vol" min="0" max="100" value="80" oninput="volIn(this.value)">
+    <span class="vv" id="vv">80</span>
+  </div>
+  <div class="optrow">⏱ 定时关闭：<span class="seg" id="sleepseg"></span>
+    <span class="sw">断线重连 <b id="rcb" onclick="rcToggle()">开</b></span>
+  </div>
+</div>
+
+<input id="q" type="search" placeholder="🔍 搜索电台…" oninput="render()">
+
+<h2>电台（<span id="cnt"></span>）<button id="chkall" type="button" onclick="checkAll()">▶ 检查可播</button></h2>
+<div class="legend">
+  <span><i class="led h-ok" style="animation:none"></i>可播</span>
+  <span><i class="led h-err" style="animation:none"></i>上次失败</span>
+  <span><i class="led h-new" style="animation:none"></i>未测</span>
+</div>
+<div id="list"></div>
+
+<footer>
+  <div class="ft1">杰克陈 · 网络收音机 v1.3</div>
+  <nav>
+    <b>作品集：</b>
+    <a href="index.html">鎏金</a>
+    <a href="index2.html">几何</a>
+    <a href="index3.html">电路</a>
+    <a href="index4.html">紫玻璃</a>
+    <a href="index5.html">Aurora</a>
+    <a href="index6.html">终端</a>
+    <a href="index7.html">霓虹</a>
+    <a href="index8.html">北欧</a>
+  </nav>
+  <div style="margin-top:6px"><a href="https://github.com/szboboxing/Radio-Box" target="_blank" rel="noopener">github.com/szboboxing/Radio-Box</a></div>
+  <div>音源来自公开网络（蜻蜓 FM / BBC / StreamTheWorld），仅供学习交流</div>
+  <div>提示：本页若以 https 部署，http 音源会被浏览器拦截，请用 http 或本地打开</div>
+</footer>
+
+<audio id="au" preload="none" playsinline webkit-playsinline></audio>
+<script>
+/* ================= 电台配置：加台只改这里 =================
+   n=台名  u=流地址  t=类型(hls 走 hls.js / mp3 直连 audio)  g=分组名 */
+var STATIONS=[
+  {n:'上海动感101', u:'http://lhttp.qingting.fm/live/274/64k.mp3',  t:'mp3',g:'音乐'},
+  {n:'经典947',     u:'http://lhttp.qingting.fm/live/267/64k.mp3',  t:'mp3',g:'音乐'},
+  {n:'北京音乐广播',u:'http://lhttp.qingting.fm/live/332/64k.mp3',  t:'mp3',g:'音乐'},
+  {n:'广东音乐之声',u:'http://lhttp.qingting.fm/live/1260/64k.mp3', t:'mp3',g:'音乐'},
+  {n:'深圳音乐广播',u:'http://lhttp.qingting.fm/live/1271/64k.mp3', t:'mp3',g:'音乐'},
+  {n:'HIT FM',      u:'http://lhttp.qingting.fm/live/15318703/64k.mp3',t:'mp3',g:'音乐'},
+  {n:'清晨音乐台',  u:'http://lhttp.qingting.fm/live/4915/64k.mp3', t:'mp3',g:'音乐'},
+  {n:'AsiaFM亚洲',  u:'http://lhttp.qingting.fm/live/4581/64k.mp3', t:'mp3',g:'音乐'},
+  {n:'北京新闻广播',u:'http://lhttp.qingting.fm/live/339/64k.mp3',  t:'mp3',g:'新闻财经'},
+  {n:'深圳新闻广播',u:'http://lhttp.qingting.fm/live/1270/64k.mp3', t:'mp3',g:'新闻财经'},
+  {n:'第一财经',    u:'http://lhttp.qingting.fm/live/276/64k.mp3',  t:'mp3',g:'新闻财经'},
+  {n:'江苏新闻广播',u:'http://lhttp.qingting.fm/live/4944/64k.mp3', t:'mp3',g:'新闻财经'},
+  {n:'浙江之声',    u:'http://lhttp.qingting.fm/live/4518/64k.mp3', t:'mp3',g:'新闻财经'},
+  {n:'苏州儿童广播',u:'http://lhttp.qingting.fm/live/2807/64k.mp3', t:'mp3',g:'少儿故事'},
+  {n:'大连少儿广播',u:'http://lhttp.qingting.fm/live/1084/64k.mp3', t:'mp3',g:'少儿故事'},
+  {n:'江苏故事广播',u:'http://lhttp.qingting.fm/live/20012/64k.mp3',t:'mp3',g:'少儿故事'},
+  {n:'BBC 世界台',  u:'http://stream.live.vc.bbcmedia.co.uk/bbc_world_service',t:'mp3',g:'国际'},
+  {n:'新加坡Yes933',u:'http://playerservices.streamtheworld.com/api/livestream-redirect/YES933.mp3',t:'mp3',g:'私人定制'},
+  /* 成都地区（2026-09-28 按蜻蜓热度榜选取，音源已实测可播） */
+  {n:'四川新闻广播FM106.1', u:'http://lhttp.qingting.fm/live/4906/64k.mp3',   t:'mp3',g:'成都'},
+  {n:'四川交通广播FM101.7', u:'http://lhttp.qingting.fm/live/4886/64k.mp3',   t:'mp3',g:'成都'},
+  {n:'成都年代音乐怀旧好声音',u:'http://lhttp.qingting.fm/live/20211686/64k.mp3',t:'mp3',g:'成都'},
+  {n:'年代音乐1022',       u:'http://lhttp.qingting.fm/live/20500066/64k.mp3',t:'mp3',g:'成都'},
+  {n:'成都电台FM94.6',     u:'http://lhttp.qingting.fm/live/4892/64k.mp3',   t:'mp3',g:'成都'}
+];
+var GROUP_COLORS=['#7ee787','#58d6eb','#f2cc60','#d2a8ff','#ff9f43','#f778ba'];
+
+/* ================= 状态 ================= */
+var cur=-1,live=false,hls=null,hlsLoading=false;
+var retryN=0,retryTmr=null,MAX_RETRY=3;
+var reconnect=localStorage.getItem('wr_reconnect')!=='0';
+var sleepTmr=null,sleepEnd=0,sleepMin=0;
+var FAV=[],HEALTH={};
+try{FAV=JSON.parse(localStorage.getItem('wr_fav')||'[]')}catch(e){}
+try{HEALTH=JSON.parse(localStorage.getItem('wr_health')||'{}')}catch(e){}
+var audio=document.getElementById('au');
+
+function $(id){return document.getElementById(id)}
+function esc(s){return (s||'').replace(/[&<>"]/g,function(c){
+  return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function chip(t,c){var e=$('st');e.textContent=t;e.className='chip '+(c||'')}
+function saveFav(){localStorage.setItem('wr_fav',JSON.stringify(FAV))}
+function saveHealth(){localStorage.setItem('wr_health',JSON.stringify(HEALTH))}
+function isFav(n){return FAV.indexOf(n)>=0}
+
+/* ================= 播放核心 ================= */
+function withHls(cb){
+  if(window.Hls){cb();return}
+  if(hlsLoading)return;
+  hlsLoading=true;
+  var s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js';
+  s.onload=function(){hlsLoading=false;cb()};
+  s.onerror=function(){hlsLoading=false;chip('HLS 组件加载失败（需联网）','err');
+    markHealth('err')};
+  document.head.appendChild(s);
+}
+function attach(i,bust){
+  var st=STATIONS[i];
+  if(hls){hls.destroy();hls=null}
+  var url=st.u+(bust?(st.u.indexOf('?')<0?'?':'&')+'r='+Date.now():'');
+  if(st.t==='hls'){
+    if(audio.canPlayType('application/vnd.apple.mpegurl')){
+      // Safari / 微信 iOS 原生支持 HLS
+      audio.src=url;
+    }else{
+      withHls(function(){
+        if(cur!==i)return;
+        hls=new Hls({liveSyncDurationCount:3});
+        hls.loadSource(url);
+        hls.attachMedia(audio);
+        hls.on(Hls.Events.ERROR,function(ev,data){
+          if(data&&data.fatal){
+            chip('流错误，尝试重连…','warn');markHealth('err');tryReconnect();
+          }
+        });
+      });
+    }
+  }else{
+    audio.src=url;
+  }
+}
+function play(i){
+  if(i<0||i>=STATIONS.length)return;
+  setNow(i);
+  clearRetry();
+  live=true;chip('缓冲中…','warn');ppBtn();
+  attach(i,false);
+  var p=audio.play();
+  if(p)p.then(function(){chip('播放中','ok')}).catch(playErr);
+  localStorage.setItem('wr_last',i);
+}
+function playErr(e){
+  var n=e&&e.name;
+  if(n==='NotAllowedError')chip('点一下播放以出声（浏览器限制）','warn');
+  else if(n==='AbortError'){/* 自己触发的切台，正常 */}
+  else chip('播放失败','err');
+}
+function setNow(i){
+  cur=i;
+  $('now').textContent=i<0?'未播放':STATIONS[i].n;
+  var bs=document.querySelectorAll('#list button[data-i]');
+  for(var k=0;k<bs.length;k++)
+    bs[k].className=(+bs[k].getAttribute('data-i')===i)?'on':'';
+  favBtn();msMeta();ppBtn();
+}
+function ppBtn(){
+  $('pp').textContent=(live&&!audio.paused)?'⏸ 暂停':'▶ 播放';
+}
+function tune(i){if(i<0||i>=STATIONS.length)return;play(i)}
+function toggle(){
+  if(cur<0){tune(0);return}
+  if(!live||audio.paused){play(cur);return}
+  audio.pause();chip('已暂停','');ppBtn();
+}
+function stopAll(){
+  live=false;clearRetry();
+  audio.pause();audio.removeAttribute('src');
+  if(hls){hls.destroy();hls=null}
+  setSleep(0);
+  setNow(-1);chip('已停止','');
+}
+function next(){tune(cur<0?0:(cur+1)%STATIONS.length)}
+function prev(){tune(cur<0?0:(cur+STATIONS.length-1)%STATIONS.length)}
+
+/* ================= 断线自动重连 =================
+   直播流没有"中心"垫底，客户端唯一能做的就是断开重拉。
+   最多 3 次、间隔 3s/6s/9s；超过就亮红灯等用户手动点。 */
+function tryReconnect(){
+  if(!reconnect||!live||cur<0)return;
+  if(retryN>=MAX_RETRY){chip('重连失败，请手动播放','err');return}
+  retryN++;
+  chip('断线重连中（'+retryN+'/'+MAX_RETRY+'）…','warn');
+  retryTmr=setTimeout(function(){
+    if(!live||cur<0)return;
+    attach(cur,true);
+    var p=audio.play();
+    if(p)p.catch(playErr);
+  },retryN*3000);
+}
+function clearRetry(){retryN=0;if(retryTmr){clearTimeout(retryTmr);retryTmr=null}}
+function rcToggle(){
+  reconnect=!reconnect;
+  localStorage.setItem('wr_reconnect',reconnect?'1':'0');
+  var b=$('rcb');b.textContent=reconnect?'开':'关';
+  b.className=reconnect?'on':'';
+}
+audio.addEventListener('playing',function(){
+  if(!live)return;
+  clearRetry();chip('播放中','ok');markHealth('ok');
+});
+audio.addEventListener('error',function(){
+  if(!live)return;
+  chip('连接断开','err');markHealth('err');tryReconnect();
+});
+audio.addEventListener('stalled',function(){
+  if(live&&!audio.paused){chip('缓冲中…','warn');}
+});
+
+/* ================= 客户端健康灯 =================
+   没有中心探测，灯色只反映"本机上次播这台的结果"，不假装是全网质量。 */
+function markHealth(v){
+  if(cur<0)return;
+  HEALTH[STATIONS[cur].n]=v;saveHealth();render();
+}
+
+/* ================= 收藏 ================= */
+function favToggle(){
+  if(cur<0)return;
+  var n=STATIONS[cur].n,i=FAV.indexOf(n);
+  if(i<0)FAV.push(n);else FAV.splice(i,1);
+  saveFav();favBtn();render();
+}
+function favBtn(){
+  var b=$('favb'),on=cur>=0&&isFav(STATIONS[cur].n);
+  b.textContent=on?'★':'☆';b.className='favb'+(on?' on':'');
+}
+
+/* ================= 定时关闭 ================= */
+var SLEEP_OPTS=[0,15,30,45,60];
+function sleepBox(){
+  $('sleepseg').innerHTML=SLEEP_OPTS.map(function(m){
+    return '<button type="button" data-m="'+m+'" class="'+(m===sleepMin?'on':'')+'">'
+      +(m===0?'关':m+"'")+'</button>';
+  }).join('');
+}
+$('sleepseg').onclick=function(ev){
+  var b=ev.target.closest?ev.target.closest('button'):null;
+  if(b)setSleep(+b.getAttribute('data-m'));
+};
+function setSleep(m){
+  sleepMin=m;
+  if(sleepTmr){clearTimeout(sleepTmr);sleepTmr=null}
+  if(m>0){
+    sleepEnd=Date.now()+m*60000;
+    sleepTmr=setTimeout(function(){
+      stopAll();chip('定时关闭已到点','warn');sleepBox();
+    },m*60000);
+  }else sleepEnd=0;
+  sleepBox();sleepTick();
+}
+function sleepTick(){
+  var e=$('sleepleft');
+  if(!sleepEnd){e.style.display='none';return}
+  var s=Math.max(0,Math.round((sleepEnd-Date.now())/1000));
+  e.style.display='';
+  e.textContent='⏱ '+Math.floor(s/60)+':'+('0'+s%60).slice(-2)+' 后停止';
+}
+
+/* ================= 音量 ================= */
+function volIn(x){
+  audio.volume=x/100;$('vv').textContent=x;
+  localStorage.setItem('wr_vol',x);
+}
+
+/* ================= 渲染电台列表 ================= */
+function render(){
+  var q=($('q').value||'').trim(),box=$('list');
+  box.innerHTML='';
+  var groups=[],gmap={},gi=0;
+  // 收藏组固定最前
+  var favs=STATIONS.filter(function(s){return isFav(s.n)});
+  var filtered=STATIONS.filter(function(s){
+    return !q||s.n.toLowerCase().indexOf(q.toLowerCase())>=0});
+  if(!q&&favs.length){
+    groups.push({name:'⭐ 我的收藏',items:favs});
+  }
+  filtered.forEach(function(s){
+    if(!q&&isFav(s.n)&&groups.length&&groups[0].name==='⭐ 我的收藏'){/* 收藏组里已显示，原组仍保留 */}
+    if(!gmap[s.g]){gmap[s.g]={name:s.g,items:[]};groups.push(gmap[s.g])}
+    gmap[s.g].items.push(s);
+  });
+  var shown=0;
+  groups.forEach(function(g){
+    var items=g.items.filter(function(s){
+      return !q||s.n.toLowerCase().indexOf(q.toLowerCase())>=0});
+    if(!items.length)return;
+    shown+=items.length;
+    var c=GROUP_COLORS[gi++%GROUP_COLORS.length];
+    var w=document.createElement('div');w.className='grp';
+    w.style.setProperty('--gc',c);
+    w.style.setProperty('--gcb','linear-gradient(180deg,'+c+'12,transparent)');
+    var t=document.createElement('h3');t.textContent=g.name;t.style.color=c;
+    w.appendChild(t);
+    var grid=document.createElement('div');grid.className='grid';
+    items.forEach(function(s){
+      var idx=STATIONS.indexOf(s);
+      var b=document.createElement('button');
+      b.setAttribute('data-i',idx);
+      var h=HEALTH[s.n];
+      var led=h==='ok'?'h-ok':(h==='err'?'h-err':'h-new');
+      var star=isFav(s.n)?'★':'';
+      b.innerHTML='<span class="nm">'+esc(s.n)+'</span>'
+        +'<span class="hlrow"><i class="led '+led+'"></i><em>'+star+'</em></span>';
+      b.title=s.n+'（'+(s.t==='hls'?'HLS':'MP3')+'）';
+      b.onclick=function(){tune(idx)};
+      if(idx===cur)b.className='on';
+      grid.appendChild(b);
+    });
+    w.appendChild(grid);box.appendChild(w);
+  });
+  if(!shown)box.innerHTML='<div class="empty">没有匹配的电台</div>';
+  $('cnt').textContent=STATIONS.length+' 台';
+}
+
+/* ================= MediaSession 锁屏控制 ================= */
+function msMeta(){
+  if(!navigator.mediaSession)return;
+  try{
+    navigator.mediaSession.metadata=cur<0?null:new MediaMetadata(
+      {title:STATIONS[cur].n,artist:'网络收音机 v1.3'});
+  }catch(e){}
+}
+if(navigator.mediaSession){
+  [['play',function(){if(cur<0)tune(0);else{audio.play().catch(playErr);ppBtn()}}],
+   ['pause',function(){audio.pause();chip('已暂停','');ppBtn()}],
+   ['previoustrack',prev],['nexttrack',next]
+  ].forEach(function(x){
+    try{navigator.mediaSession.setActionHandler(x[0],x[1])}catch(e){}
+  });
+  var msState=function(){
+    try{navigator.mediaSession.playbackState=audio.paused?'paused':'playing'}catch(e){}};
+  audio.addEventListener('play',msState);
+  audio.addEventListener('pause',msState);
+}
+
+/* ================= 键盘快捷键 ================= */
+document.addEventListener('keydown',function(e){
+  if(e.target.tagName==='INPUT')return;
+  if(e.code==='Space'){e.preventDefault();toggle()}
+  else if(e.code==='ArrowRight')next();
+  else if(e.code==='ArrowLeft')prev();
+});
+
+/* ================= 可播放性检查（v1.2） =================
+   客户端逐个试播，顺序进行避免并发打满：
+   HLS 拉一次 m3u8 文本即可判定；MP3 用隐藏的静音 Audio 等 canplay，8 秒超时。
+   灯色语义＝"本机这次/上次实测能不能播"，不假装是全网质量。 */
+var CHECKING=false;
+function probeHls(url,cb){
+  var done=false,fin=function(ok){if(!done){done=true;cb(ok)}};
+  setTimeout(function(){fin(false)},8000);
+  fetch(url,{cache:'no-store'}).then(function(r){
+    if(!r.ok)throw 0;return r.text()}).then(function(t){
+    fin(t.indexOf('#EXTM3U')>=0)}).catch(function(){fin(false)});
+}
+function probeMp3(url,cb){
+  var done=false,a=new Audio();
+  var fin=function(ok){if(!done){done=true;try{a.removeAttribute('src');a.load()}catch(e){}cb(ok)}};
+  a.muted=true;a.preload='auto';
+  setTimeout(function(){fin(false)},8000);
+  a.oncanplay=function(){fin(true)};
+  a.onerror=function(){fin(false)};
+  a.src=url;
+}
+function probeOne(i,cb){
+  var st=STATIONS[i];
+  if(st.t==='hls')probeHls(st.u,cb);else probeMp3(st.u,cb);
+}
+function checkAll(){
+  if(CHECKING)return;
+  CHECKING=true;
+  var b=$('chkall'),i=0;
+  b.className='busy';
+  (function step(){
+    if(i>=STATIONS.length){
+      CHECKING=false;b.className='';b.textContent='▶ 检查可播';
+      render();return}
+    var idx=i++;
+    b.textContent='检查中 '+i+'/'+STATIONS.length+'…';
+    probeOne(idx,function(ok){
+      HEALTH[STATIONS[idx].n]=ok?'ok':'err';saveHealth();render();step();
+    });
+  })();
+}
+
+/* ================= 本机缓冲显示 ================= */
+setInterval(function(){
+  var n=0;
+  try{var bd=audio.buffered;
+    n=bd.length?Math.round((bd.end(bd.length-1)-audio.currentTime)*10)/10:0}catch(e){}
+  $('buf').textContent='本机缓冲 '+(live?n+'s':'—');
+  ppBtn();sleepTick();
+},2000);
+
+/* ================= 初始化 ================= */
+var sv=localStorage.getItem('wr_vol');
+if(sv!=null){$('vol').value=sv;volIn(sv)}else audio.volume=0.8;
+if(!reconnect)$('rcb').textContent='关';else $('rcb').className='on';
+sleepBox();render();
+chip('就绪','ok');
+// 进页自动跑一轮可播放检查，灯色立刻有意义（与参考站"进页即见健康"对齐）
+checkAll();
+</script>
+</body>
+</html>

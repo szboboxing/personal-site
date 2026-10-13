@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杰克陈 · 独立开发者作品集</title>
+
+<!-- Tailwind CDN：唯一外部依赖，双击即跑 -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- ============================================================
+   主题配置 / 颜色令牌
+   ★ 想换主色：改下面 --accent 一行即可（深底/浅底各一处）
+   ★ 想换 logo：改 <body> 里 id="logo" 的文本或换成 <img>
+   ============================================================ -->
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'bg0':   'var(--bg-0)',
+          'bg1':   'var(--bg-1)',
+          'bg2':   'var(--bg-2)',
+          'edge':  'var(--border)',
+          'fg0':   'var(--fg-0)',
+          'fg1':   'var(--fg-1)',
+          'fg2':   'var(--fg-2)',
+          'accent':'var(--accent)',
+        },
+        fontFamily: {
+          mono: ['ui-monospace','SFMono-Regular','Cascadia Code','Consolas','Menlo','monospace'],
+          sans: ['system-ui','-apple-system','Segoe UI','Roboto','Helvetica Neue','PingFang SC','Microsoft YaHei','sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  /* ===== 主题变量：深底（默认） ===== */
+  :root {
+    --bg-0: #0A0A0B;
+    --bg-1: #111113;
+    --bg-2: #18181B;
+    --border:#26262B;
+    --fg-0: #EDEDEF;
+    --fg-1: #9B9BA3;
+    --fg-2: #62626B;
+    --accent:#22D3EE;   /* ★ 唯一点缀色，深底用终端青 */
+  }
+  /* ===== 浅底（一键切换） ===== */
+  [data-theme="light"] {
+    --bg-0: #FAFAF9;
+    --bg-1: #F4F4F3;
+    --bg-2: #EBEBEA;
+    --border:#D4D4D2;
+    --fg-0: #1A1A1C;
+    --fg-1: #55555C;
+    --fg-2: #8A8A92;
+    --accent:#0891B2;   /* ★ 浅底点缀色，更深一档保证对比度 */
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg-0); color: var(--fg-0); transition: background .3s, color .3s; }
+
+  /* 自定义滚动条 */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-1); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--fg-2); }
+
+  /* 选区颜色 */
+  ::selection { background: var(--accent); color: var(--bg-0); }
+
+  /* ===== 滚动入场动画 ===== */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ===== 技术栈 marquee ===== */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-track {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: marquee 28s linear infinite;
+  }
+  .marquee-mask:hover .marquee-track { animation-play-state: paused; }
+
+  /* ===== 打字机光标 ===== */
+  .cursor-blink::after {
+    content: '▋';
+    margin-left: 2px;
+    color: var(--accent);
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ===== 点赞粒子 ===== */
+  .spark {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    pointer-events: none;
+    z-index: 60;
+    border-radius: 1px;
+  }
+
+  /* ===== 卡片 hover：边框灰→青，不发光 ===== */
+  .card-hov { transition: border-color .2s, transform .2s; }
+  .card-hov:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  /* ===== 箭头右移 ===== */
+  .arrow-move { transition: transform .2s; }
+  .group:hover .arrow-move { transform: translateX(4px); }
+
+  /* ===== 顶部进度线 ===== */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: var(--accent); z-index: 70; width: 0;
+    transition: width .1s;
+  }
+
+  /* 焦点可见 */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* 隐藏滚动条（marquee 容器） */
+  .no-bar::-webkit-scrollbar { display: none; }
+  .no-bar { scrollbar-width: none; }
+</style>
+</head>
+
+<body class="font-sans antialiased">
+
+<!-- 顶部滚动进度线 -->
+<div id="progress-bar"></div>
+
+<!-- ============ 导航栏 ============ -->
+<nav class="sticky top-0 z-50 border-b border-edge bg-bg0/90 backdrop-blur-sm">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
+    <!-- ★ logo：改这里。可替换为 <img src="logo.svg" class="h-6"> -->
+    <a href="#top" id="logo" class="font-mono text-fg0 font-bold tracking-tight text-lg">
+      <span class="text-accent">&lt;/&gt;</span> 杰克陈
+    </a>
+
+    <!-- 桌面端锚点 -->
+    <div class="hidden md:flex items-center gap-7 text-sm font-mono">
+      <a href="#projects" class="text-fg1 hover:text-accent transition">projects</a>
+      <a href="#download" class="text-fg1 hover:text-accent transition">download</a>
+      <a href="#connect"  class="text-fg1 hover:text-accent transition">connect</a>
+      <a href="#about"    class="text-fg1 hover:text-accent transition">about</a>
+      <!-- 主题切换 -->
+      <button id="theme-toggle" aria-label="切换主题"
+        class="ml-1 w-8 h-8 grid place-items-center rounded border border-edge text-fg1 hover:text-accent hover:border-accent transition">
+        <svg id="icon-moon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="icon-sun" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+
+    <!-- 移动端汉堡 -->
+    <button id="menu-btn" class="md:hidden w-8 h-8 grid place-items-center text-fg1" aria-label="菜单">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <!-- 移动端下拉 -->
+  <div id="mobile-menu" class="md:hidden hidden border-t border-edge bg-bg1">
+    <div class="px-5 py-3 flex flex-col gap-3 font-mono text-sm">
+      <a href="#projects" class="text-fg1 hover:text-accent">projects</a>
+      <a href="#download" class="text-fg1 hover:text-accent">download</a>
+      <a href="#connect"  class="text-fg1 hover:text-accent">connect</a>
+      <a href="#about"    class="text-fg1 hover:text-accent">about</a>
+      <button onclick="toggleTheme()" class="self-start text-fg1 hover:text-accent">toggle theme</button>
+    </div>
+  </div>
+</nav>
+
+<main id="top" class="max-w-6xl mx-auto px-5 sm:px-8">
+
+  <!-- ============ HERO ============ -->
+  <section class="pt-16 sm:pt-24 pb-20 sm:pb-28">
+    <div class="grid lg:grid-cols-5 gap-10 items-center">
+      <!-- 左：终端窗口 -->
+      <div class="lg:col-span-3 reveal">
+        <div class="rounded-lg border border-edge bg-bg1 overflow-hidden shadow-2xl shadow-black/40">
+          <!-- 标题栏 -->
+          <div class="flex items-center gap-2 px-4 h-9 border-b border-edge bg-bg2">
+            <span class="w-3 h-3 rounded-full bg-fg2"></span>
+            <span class="w-3 h-3 rounded-full bg-fg2"></span>
+            <span class="w-3 h-3 rounded-full bg-fg2"></span>
+            <span class="ml-3 font-mono text-xs text-fg2">杰克陈 — zsh — 80×24</span>
+          </div>
+          <!-- 终端内容 -->
+          <div class="p-5 font-mono text-sm leading-7 min-h-[180px]">
+            <div><span class="text-fg2">$</span> <span class="text-accent">whoami</span></div>
+            <div class="text-fg1">→ <span id="typewriter" class="cursor-blink"></span></div>
+            <div class="mt-3 text-fg2">$ <span class="text-fg1">ls ~/projects</span></div>
+            <div class="text-fg0">→ download-optimizer/ &nbsp; mouse-gesture-actions/ &nbsp; MousePro/ &nbsp; Radio-Box/ &nbsp; property-ledger/ &nbsp; property-ledger-html/</div>
+            <div class="mt-3 text-fg2">$ <span class="text-fg1">cat manifesto.txt</span></div>
+            <div class="text-fg1">→ 做解决真实痛点的小工具，能跑、好用、不装。</div>
+            <div class="mt-3 text-fg2">$ <span class="text-accent">█</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右：介绍 + CTA -->
+      <div class="lg:col-span-2 reveal">
+        <p class="font-mono text-xs text-accent tracking-widest mb-3">// INDEPENDENT DEVELOPER</p>
+        <h1 class="text-3xl sm:text-4xl font-bold leading-tight mb-4">
+          我做 Windows 桌面工具，<br class="hidden sm:block">解决自己遇到的麻烦事。
+        </h1>
+        <p class="text-fg1 leading-relaxed mb-7">
+          六个长期维护的开源项目：一个把批量重命名和表格规约自动化，一个让鼠标手势更好用，一个把鼠标按键映射和系统增强做到极致，一个帮房东记账催租，一个打开就听的网页收音机，还有一个把物业管理台账重构成纯 HTML 单文件版，双击即用不装 Docker。
+          不追技术时髦，只做能省下别人时间的东西。
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#projects" class="group inline-flex items-center gap-2 px-5 h-11 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
+            看项目 <span class="arrow-move">→</span>
+          </a>
+          <a href="https://github.com/szboboxing" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-5 h-11 rounded border border-edge text-fg0 font-mono text-sm hover:border-accent hover:text-accent transition">
+            GitHub <span class="arrow-move">↗</span>
+          </a>
+        </div>
+
+        <!-- 状态小卡 -->
+        <div class="mt-8 grid grid-cols-3 gap-3 font-mono text-center">
+          <div class="border border-edge rounded p-3">
+            <div class="text-2xl font-bold text-accent">06</div>
+            <div class="text-xs text-fg2 mt-1">projects</div>
+          </div>
+          <div class="border border-edge rounded p-3">
+            <div class="text-2xl font-bold text-accent">v1.3</div>
+            <div class="text-xs text-fg2 mt-1">latest</div>
+          </div>
+          <div class="border border-edge rounded p-3">
+            <div class="text-2xl font-bold text-accent" id="views-count">0</div>
+            <div class="text-xs text-fg2 mt-1">围观</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 项目 01 ============ -->
+  <section id="projects" class="py-16 sm:py-20 border-t border-edge">
+    <div class="reveal mb-10">
+      <p class="font-mono text-xs text-accent tracking-widest mb-2">// 01 — PROJECT</p>
+      <h2 class="text-2xl sm:text-3xl font-bold">做的六个东西</h2>
+    </div>
+
+    <!-- 项目卡 01（真实数据） -->
+    <article class="reveal relative rounded-lg border border-edge bg-bg1 p-7 sm:p-9 mb-8 card-hov">
+      <!-- 描边大编号 -->
+      <span class="absolute -top-5 right-6 font-mono text-6xl font-bold text-edge leading-none select-none">01</span>
+
+      <div class="flex flex-wrap items-baseline gap-3 mb-2">
+        <h3 class="text-xl sm:text-2xl font-bold">下载流程优化工具</h3>
+        <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v3.18</span>
+        <span class="font-mono text-xs text-fg2">2026-09-25</span>
+      </div>
+      <p class="text-fg1 mb-6">批量重命名 + 规约上传数据表准备 + AI 助手，一个 Windows 桌面 GUI 干完三件脏活。</p>
+
+      <!-- 痛点 → 解法 双列对照 -->
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-7">
+        <div>
+          <p class="font-mono text-xs text-fg2 mb-3">// PAIN 痛点</p>
+          <ul class="space-y-2.5 text-sm text-fg1">
+            <li class="flex gap-2"><span class="text-fg2">·</span>文件夹成百上千，手动逐个改名易错且无法回退</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>WPS 表格人工比对横杠两侧，肉眼找行费时</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>豆包、DeepSeek、元宝多平台来回切换 API Key</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-accent mb-3">// FIX 解法</p>
+          <ul class="space-y-2.5 text-sm text-fg0">
+            <li class="flex gap-2"><span class="text-accent">▸</span>批量删前 N 位 / 前后追加，实时预览 + 一键回退</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>横杠两侧自动匹配，复用 K/L 状态列联动</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>内置四平台 AI 助手，Key 本地加密一站调用</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 功能细目 -->
+      <div class="grid sm:grid-cols-2 gap-2 mb-6">
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[1]</span><span class="text-fg1">批量重命名文件夹：删位/前后加，预览回退</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[2]</span><span class="text-fg1">批量重命名文件：日期/版本号/自定义字符</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[3]</span><span class="text-fg1">规约上传数据表准备：K/L 联动、帮助中心</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[4]</span><span class="text-fg1">AI 智能助手：豆包/DeepSeek/元宝/硅基流动</span></div>
+      </div>
+
+      <!-- 技术标签 -->
+      <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Python</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Tkinter</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">openpyxl</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">requests</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">pywin32</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">PyInstaller</span>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="https://github.com/szboboxing/download-optimizer" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-edge text-fg0 font-mono text-sm hover:border-accent hover:text-accent transition">
+          GitHub <span class="arrow-move">↗</span>
+        </a>
+        <a href="https://github.com/szboboxing/download-optimizer/releases" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-accent bg-accent text-bg0 font-mono text-sm hover:opacity-90 transition">
+          下载 v3.18 <span class="arrow-move">↓</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- 项目卡 02 -->
+    <article class="reveal relative rounded-lg border border-edge bg-bg1 p-7 sm:p-9 mb-8 card-hov">
+      <span class="absolute -top-5 right-6 font-mono text-6xl font-bold text-edge leading-none select-none">02</span>
+
+      <div class="flex flex-wrap items-baseline gap-3 mb-2">
+        <h3 class="text-xl sm:text-2xl font-bold">鼠标手势动作小工具</h3>
+        <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">V2.5</span>
+        <span class="font-mono text-xs text-fg2">2026-10-05</span>
+      </div>
+      <p class="text-fg1 mb-6">按住右键画手势，复制、粘贴、截图一气呵成；松开右键，系统原生菜单原样恢复。</p>
+
+      <!-- 痛点 → 解法 双列对照 -->
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-7">
+        <div>
+          <p class="font-mono text-xs text-fg2 mb-3">// PAIN 痛点</p>
+          <ul class="space-y-2.5 text-sm text-fg1">
+            <li class="flex gap-2"><span class="text-fg2">·</span>复制粘贴要在窗口间来回点，粘错位置还得重来</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>系统截图先摸 Win+Shift+S，节奏一断就卡住</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>鼠标侧键坏没坏、映射生没生效，全靠猜</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-accent mb-3">// FIX 解法</p>
+          <ul class="space-y-2.5 text-sm text-fg0">
+            <li class="flex gap-2"><span class="text-accent">▸</span>右键按住+滚轮上/下：复制 / 增强粘贴（自动建文件夹）</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>右键按住+侧键：立即调起系统截图</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>内置按键测试页：图形高亮 + 计数 + 侧键检测保存</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 功能细目 -->
+      <div class="grid sm:grid-cols-2 gap-2 mb-6">
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[1]</span><span class="text-fg1">右键手势：按住生效，松开恢复原生右键菜单</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[2]</span><span class="text-fg1">增强粘贴：当前目录新建文件夹并粘贴剪贴板</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[3]</span><span class="text-fg1">键盘映射：X1/X2 侧键自定义 Ctrl/Alt/Shift + A-Z</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[4]</span><span class="text-fg1">统计与快捷工具：按键次数、移动距离、一键计算器</span></div>
+      </div>
+
+      <!-- 技术标签 -->
+      <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Python</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Tkinter</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Win32 Hook</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">PyInstaller</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">GitHub Actions</span>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="https://github.com/szboboxing/mouse-gesture-actions" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-edge text-fg0 font-mono text-sm hover:border-accent hover:text-accent transition">
+          GitHub <span class="arrow-move">↗</span>
+        </a>
+        <a href="https://github.com/szboboxing/mouse-gesture-actions/releases" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-accent bg-accent text-bg0 font-mono text-sm hover:opacity-90 transition">
+          下载 V2.5 <span class="arrow-move">↓</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- 项目卡 03 -->
+    <article class="reveal relative rounded-lg border border-edge bg-bg1 p-7 sm:p-9 mb-8 card-hov">
+      <span class="absolute -top-5 right-6 font-mono text-6xl font-bold text-edge leading-none select-none">03</span>
+
+      <div class="flex flex-wrap items-baseline gap-3 mb-2">
+        <h3 class="text-xl sm:text-2xl font-bold">Radio-Box 网络收音机</h3>
+        <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v1.3</span>
+        <span class="font-mono text-xs text-fg2">2026-09-28</span>
+      </div>
+      <p class="text-fg1 mb-6">纯静态零后端的网页收音机：23 台实测音源直连（含成都分组），进页自动可播放检查，单文件打开即听。</p>
+
+      <!-- 痛点 → 解法 双列对照 -->
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-7">
+        <div>
+          <p class="font-mono text-xs text-fg2 mb-3">// PAIN 痛点</p>
+          <ul class="space-y-2.5 text-sm text-fg1">
+            <li class="flex gap-2"><span class="text-fg2">·</span>网络电台链接失效没人管，点开全是静默</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>想听的台藏在长列表里，每次重新翻</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>手机锁屏就失控，切台必须回页面</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-accent mb-3">// FIX 解法</p>
+          <ul class="space-y-2.5 text-sm text-fg0">
+            <li class="flex gap-2"><span class="text-accent">▸</span>进页自动试播 23 台，灯色标可播/失败/未测</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>成都分组：收录成都地区热度 Top5 电台</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>收藏 / 搜索 / 定时关闭 / 断线自动重连</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>MediaSession 锁屏控制 + 键盘快捷键</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 功能细目 -->
+      <div class="grid sm:grid-cols-2 gap-2 mb-6">
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[1]</span><span class="text-fg1">可播放自检：进页自动试播 23 台，灯色标可播/失败/未测</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[2]</span><span class="text-fg1">收藏 / 搜索 / 定时关闭 / 断线自动重连</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[3]</span><span class="text-fg1">私人定制分组：新加坡 Yes933</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[4]</span><span class="text-fg1">MediaSession 锁屏控制 + 键盘快捷键</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[5]</span><span class="text-fg1">成都分组：收录成都地区热度 Top5 电台</span></div>
+      </div>
+
+      <!-- 技术标签 -->
+      <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">HTML5 Audio</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Vanilla JS</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">MediaSession</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">localStorage</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">hls.js</span>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="https://github.com/szboboxing/Radio-Box" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-edge text-fg0 font-mono text-sm hover:border-accent hover:text-accent transition">
+          GitHub <span class="arrow-move">↗</span>
+        </a>
+        <a href="https://github.com/szboboxing/Radio-Box/releases" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-accent bg-accent text-bg0 font-mono text-sm hover:opacity-90 transition">
+          下载 v1.3 <span class="arrow-move">↓</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- 项目卡 04 -->
+    <article class="reveal relative rounded-lg border border-edge bg-bg1 p-7 sm:p-9 card-hov">
+      <span class="absolute -top-5 right-6 font-mono text-6xl font-bold text-edge leading-none select-none">04</span>
+
+      <div class="flex flex-wrap items-baseline gap-3 mb-2">
+        <h3 class="text-xl sm:text-2xl font-bold">鼠标Pro MousePro</h3>
+        <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v1.0.1</span>
+        <span class="font-mono text-xs text-fg2">2026-10-08</span>
+      </div>
+      <p class="text-fg1 mb-6">基于开源 PourInput 独立演进的全能鼠标增强：每个按键单击/长按双映射、按应用自动切换，再叠加右键手势与系统工具箱。</p>
+
+      <!-- 痛点 → 解法 双列对照 -->
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-7">
+        <div>
+          <p class="font-mono text-xs text-fg2 mb-3">// PAIN 痛点</p>
+          <ul class="space-y-2.5 text-sm text-fg1">
+            <li class="flex gap-2"><span class="text-fg2">·</span>侧键只在浏览器有用，换个软件就闲置或误触</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>指针大小、亮度对比度设置藏得深，每次现找</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>想给不同软件配不同鼠标动作，系统做不到</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-accent mb-3">// FIX 解法</p>
+          <ul class="space-y-2.5 text-sm text-fg0">
+            <li class="flex gap-2"><span class="text-accent">▸</span>每键单击/长按两套动作，按应用自动切换配置</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>右键+滚轮/侧键：复制、增强粘贴、截图</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>系统工具：指针大小（Win10/11）、亮度对比度、计算器</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 功能细目 -->
+      <div class="grid sm:grid-cols-2 gap-2 mb-6">
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[1]</span><span class="text-fg1">按键映射：每键单击/长按两套动作，按应用自动切换</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[2]</span><span class="text-fg1">右键组合手势：复制、增强粘贴、截图</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[3]</span><span class="text-fg1">系统工具箱：指针大小（Win10/11）、亮度对比度、计算器</span></div>
+        <div class="flex gap-2 text-sm"><span class="text-accent font-mono">[4]</span><span class="text-fg1">基于开源 PourInput 独立演进，默认简体中文</span></div>
+      </div>
+
+      <!-- 技术标签 -->
+      <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Python</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">PySide6</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">QML</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Win32 Hook</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">GitHub Actions</span>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="https://github.com/szboboxing/MousePro" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-edge text-fg0 font-mono text-sm hover:border-accent hover:text-accent transition">
+          GitHub <span class="arrow-move">↗</span>
+        </a>
+        <a href="https://github.com/szboboxing/MousePro/releases" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-accent bg-accent text-bg0 font-mono text-sm hover:opacity-90 transition">
+          下载 v1.0.1 <span class="arrow-move">↓</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- 项目卡 05 -->
+    <article class="reveal relative rounded-lg border border-edge bg-bg1 p-7 sm:p-9 card-hov">
+      <span class="absolute -top-5 right-6 font-mono text-6xl font-bold text-edge leading-none select-none">05</span>
+
+      <div class="flex flex-wrap items-baseline gap-3 mb-2">
+        <h3 class="text-xl sm:text-2xl font-bold">物业管理台账 Property Ledger</h3>
+        <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v2.3</span>
+        <span class="font-mono text-xs text-fg2">2026-10-13</span>
+      </div>
+      <p class="text-fg1 mb-6">房东记账 Blazor 服务器应用：物业 → 房间 → 租客 → 租约按月自动出账，一键生成中文账单图片微信转发租客，Docker 一条命令部署。</p>
+
+      <!-- 痛点 → 解法 双列对照 -->
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-7">
+        <div>
+          <p class="font-mono text-xs text-fg2 mb-3">// PAIN 痛点</p>
+          <ul class="space-y-2.5 text-sm text-fg1">
+            <li class="flex gap-2"><span class="text-fg2">·</span>手工 Excel 记租，每月对账翻表到眼花</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>历史欠款、部分收款全靠脑子记</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>催租要自己算逾期天数、翻聊天记录</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-accent mb-3">// FIX 解法</p>
+          <ul class="space-y-2.5 text-sm text-fg0">
+            <li class="flex gap-2"><span class="text-accent">▸</span>按月自动出账，初始化账单一键平历史欠款，支持租金递增</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>欠款一览按租客分页列出逾期，报表按物业/月份汇总</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>中文账单图含收款码，批量结清未付账单</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 技术标签 -->
+      <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Blazor Server</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">.NET 10</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">PostgreSQL 17</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">EF Core</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">SkiaSharp</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Docker</span>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="https://github.com/szboboxing/property-ledger" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-edge text-fg0 font-mono text-sm hover:border-accent hover:text-accent transition">
+          GitHub <span class="arrow-move">↗</span>
+        </a>
+        <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.3" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-accent bg-accent text-bg0 font-mono text-sm hover:opacity-90 transition">
+          下载 v2.3 <span class="arrow-move">↓</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- 项目 06 -->
+    <article class="reveal relative rounded-lg border border-edge bg-bg1 p-7 sm:p-9 mb-8 card-hov">
+      <span class="absolute -top-5 right-6 font-mono text-6xl font-bold text-edge leading-none select-none">06</span>
+
+      <div class="flex flex-wrap items-baseline gap-3 mb-2">
+        <h3 class="text-xl sm:text-2xl font-bold">物业管理台账 HTML 单文件版</h3>
+        <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v1.3</span>
+        <span class="font-mono text-xs text-fg2">2026-10-12</span>
+      </div>
+      <p class="text-fg1 mb-6">把 Blazor 物业管理台账重构成纯前端：两个 HTML 文件，双击即用，不装 Docker 不装数据库，PC / 手机 / 平板浏览器全兼容。</p>
+
+      <!-- 痛点 → 解法 双列对照 -->
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-7">
+        <div>
+          <p class="font-mono text-xs text-fg2 mb-3">// PAIN 痛点</p>
+          <ul class="space-y-2.5 text-sm text-fg1">
+            <li class="flex gap-2"><span class="text-fg2">·</span>服务器版要装 Docker 容器 + PostgreSQL 数据库，手机访问还要搭公网</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>换电脑换环境，备份迁移要搬数据卷</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>房东自己电脑就能记账，但常驻容器太重</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-accent mb-3">// FIX 解法</p>
+          <ul class="space-y-2.5 text-sm text-fg0">
+            <li class="flex gap-2"><span class="text-accent">▸</span>两文件备份 U 盘随身：物业管理台账.html + 使用说明.html</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>IndexedDB 本地存储 + 数据文件绑定（Chrome/Edge）防清缓存</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>业务语义对齐 property-ledger v2.3</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 技术标签 -->
+      <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">纯 HTML</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">IndexedDB</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Vanilla JS</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">PBKDF2</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">File System Access</span>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="https://github.com/szboboxing/property-ledger-html" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-edge text-fg0 font-mono text-sm hover:border-accent hover:text-accent transition">
+          GitHub <span class="arrow-move">↗</span>
+        </a>
+        <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.3" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-accent bg-accent text-bg0 font-mono text-sm hover:opacity-90 transition">
+          下载 v1.3 <span class="arrow-move">↓</span>
+        </a>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ 版本下载 ============ -->
+  <section id="download" class="py-16 sm:py-20 border-t border-edge">
+    <div class="reveal mb-10">
+      <p class="font-mono text-xs text-accent tracking-widest mb-2">// 02 — RELEASES</p>
+      <h2 class="text-2xl sm:text-3xl font-bold">版本下载</h2>
+      <p class="text-fg1 text-sm mt-2">每个版本附 SHA-256 校验值，点击哈希可一键复制。</p>
+    </div>
+
+    <div class="relative pl-6 border-l border-edge reveal">
+      <!-- v2.3 物业管理台账 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-accent ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-accent">v2.3</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-13</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">物业管理台账 Property Ledger</span>
+        </div>
+        <p class="text-sm text-fg1 mb-3">同步 HTML 版：鎏金暗色界面；租期年数 1-20 年、租金递增（按比例/按金额）；批量结清新「账单当月」收款日期；报表按物业/月份汇总翻页。</p>
+        <div>
+          <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.3" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
+            下载 <span class="arrow-move">↓</span>
+          </a>
+        </div>
+      </div>
+      <!-- v1.3 物业管理台账 HTML 单文件版 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-accent ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-accent">v1.3</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-13</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">物业管理台账 HTML 单文件版</span>
+        </div>
+        <p class="text-sm text-fg1 mb-3">手机浏览器全面适配修复：窄屏列表不再被裁切、输入框不再自动放大、小屏按钮不再溢出、键盘遮挡缓解。</p>
+        <div>
+          <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.3" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
+            下载 <span class="arrow-move">↓</span>
+          </a>
+        </div>
+      </div>      <!-- v1.0.0 物业管理台账 HTML 单文件版 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-fg2 ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-fg0">v1.0.0</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-12</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">物业管理台账 HTML 单文件版</span>
+        </div>
+        <p class="text-sm text-fg1 mb-3">两个文件双击即用：不装 Docker、不装数据库，IndexedDB 本地存储 + 数据文件绑定（Chrome/Edge）防清缓存，PC/手机/平板全兼容。</p>
+        <div>
+          <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.0.0" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-edge text-fg1 font-mono text-sm hover:border-accent hover:text-accent transition">
+            获取 <span class="arrow-move">↗</span>
+          </a>
+        </div>
+      </div>
+      <!-- v2.2 物业管理台账 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-fg2 ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-fg0">v2.2</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-11</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">物业管理台账 Property Ledger</span>
+        </div>
+        <p class="text-sm text-fg1 mb-3">数据管理补全：账单支持编辑（调租金 / 备注）与删除（有收款须先撤销）；管理员可改名 / 删除普通用户账号。</p>
+        <div>
+          <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.2" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-edge text-fg1 font-mono text-sm hover:border-accent hover:text-accent transition">
+            获取 <span class="arrow-move">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- v2.1 物业管理台账 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-fg2 ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-fg0">v2.1</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-11</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">物业管理台账 Property Ledger</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">镜像大幅精简：565MB → 244MB（alpine 基础镜像 + 内置单中文字体），拉取与一键升级更快。</p>
+        <div>
+          <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.1" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-edge text-fg1 font-mono text-sm hover:border-accent hover:text-accent transition">
+            获取 <span class="arrow-move">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- v2.0 物业管理台账 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-fg2 ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-fg0">v2.0</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-11</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">物业管理台账 Property Ledger</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">菜单对齐排版与账单图隐私升级：租客姓名脱敏、标题美化。</p>
+        <div>
+          <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.0" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-edge text-fg1 font-mono text-sm hover:border-accent hover:text-accent transition">
+            获取 <span class="arrow-move">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- v1.0.1 MousePro -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-accent ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-accent">v1.0.1</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-08</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">鼠标Pro MousePro</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">新增单文件便携版：单 exe 免安装、无 _internal 依赖，内网/U 盘分发更省心；功能与 v1.0.0 一致。</p>
+        <button class="sha-copy inline-flex items-center gap-2 font-mono text-xs text-fg2 hover:text-accent transition mb-3"
+                data-sha="BB0A4C64F4DF4808613CC9B00B65061845FB031C59DBF496F4DF3C3D1F1F3797">
+          <span class="text-fg2">SHA:</span>
+          <span class="font-mono">BB0A…3797</span>
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <div>
+          <a href="https://github.com/szboboxing/MousePro/releases/tag/v1.0.1" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
+            下载 EXE <span class="arrow-move">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- v1.0.0 MousePro -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-fg2 ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-fg0">v1.0.0</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-07</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">鼠标Pro MousePro</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">鼠标Pro 首个独立版本：基于 PourInput 移植右键组合手势、增强粘贴、系统工具、按键测试与使用统计，默认简体中文。</p>
+        <button class="sha-copy inline-flex items-center gap-2 font-mono text-xs text-fg2 hover:text-accent transition mb-3"
+                data-sha="18AE794E350D7548B14EC6E468A181D028C9BBA343AE6A1BC17B8D410ABF2BB3">
+          <span class="text-fg2">SHA:</span>
+          <span class="font-mono">18AE…F2BB3</span>
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <div>
+          <a href="https://github.com/szboboxing/MousePro/releases/tag/v1.0.0" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-edge text-fg1 font-mono text-sm hover:border-accent hover:text-accent transition">
+            下载 EXE <span class="arrow-move">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- v1.3 Radio-Box -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-accent ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-accent">v1.3</h3>
+          <span class="font-mono text-xs text-fg2">2026-09-28</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">Radio-Box 网络收音机</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">新增成都分组：收录蜻蜓热度榜成都地区 Top5（四川新闻106.1/交通101.7 等），全部实测可播，共 23 台。</p>
+        <p class="font-mono text-xs text-fg2 mb-3">单文件网页 · 无安装包</p>
+        <div>
+          <a href="https://github.com/szboboxing/Radio-Box/releases" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
+            获取网页 <span class="arrow-move">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- v3.18 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-accent ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-accent">v3.18</h3>
+          <span class="font-mono text-xs text-fg2">2026-09-25</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">下载流程优化工具</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">帮助说明升级为帮助中心浏览窗口：三级页面加首页/返回上级/上一页/下一页导航，五模块全覆盖。</p>
+        <button class="sha-copy inline-flex items-center gap-2 font-mono text-xs text-fg2 hover:text-accent transition mb-3"
+                data-sha="B176ED37A514FEE083727350B7A35F6FBC8FE903E63840D0E198354DBC4D1F93">
+          <span class="text-fg2">SHA-256:</span>
+          <span class="font-mono">B176ED37...4D1F93</span>
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <div>
+          <a href="https://github.com/szboboxing/download-optimizer/releases" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
+            下载 EXE <span class="arrow-move">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- V2.5 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-accent ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-accent">V2.5</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-05</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">鼠标手势动作小工具</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">快捷工具新增鼠标指针大小按钮，一键打开系统指针设置（Win10/Win11 分流）。</p>
+        <button class="sha-copy inline-flex items-center gap-2 font-mono text-xs text-fg2 hover:text-accent transition mb-3"
+                data-sha="FE7EC953EFEB8364B7001582EF9D0EA9643A1C2557E8653918529FF2EA375B01">
+          <span class="text-fg2">SHA-256:</span>
+          <span class="font-mono">FE7EC953...375B01</span>
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <div>
+          <a href="https://github.com/szboboxing/mouse-gesture-actions/releases/tag/V2.5" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
+            下载 EXE <span class="arrow-move">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- v3.11 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-fg2 ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-fg0">v3.11</h3>
+          <span class="font-mono text-xs text-fg2">2026-08-07</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">下载流程优化工具</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">规约上传复用现有 K/L 状态列；已标注数据再次匹配显示「待上传（重复）」；K/L 表头安全校验。</p>
+        <button class="sha-copy inline-flex items-center gap-2 font-mono text-xs text-fg2 hover:text-accent transition mb-3"
+                data-sha="54BE5BB239F998ADB3CB428EC5FDE444AB59DB06D221FD87A8966CE06C1D8D10">
+          <span class="text-fg2">SHA-256:</span>
+          <span class="font-mono">54BE5BB2...1D8D10</span>
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <div>
+          <a href="https://github.com/szboboxing/download-optimizer/releases" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-edge text-fg1 font-mono text-sm hover:border-accent hover:text-accent transition">
+            查看发布 <span class="arrow-move">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- v3.10 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-fg2 ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-fg0">v3.10</h3>
+          <span class="font-mono text-xs text-fg2">2026-08-07</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">下载流程优化工具</span>
+        </div>
+        <p class="text-sm text-fg1 mb-3">可编辑比对列选择框（支持输入 A-XFD）；生成后自动隐藏折叠 K/L 列；移除已取消的双表同步模块。</p>
+        <div>
+          <a href="https://github.com/szboboxing/download-optimizer/releases" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-edge text-fg1 font-mono text-sm hover:border-accent hover:text-accent transition">
+            查看发布 <span class="arrow-move">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- V1.8 -->
+      <div class="relative">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-fg2 ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-fg0">V1.8</h3>
+          <span class="font-mono text-xs text-fg2">2026-08-08</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">鼠标手势动作小工具</span>
+        </div>
+        <p class="text-sm text-fg1 mb-2">自定义键盘映射上线：X1/X2 侧键可绑定 Ctrl/Alt/Shift + A-Z 组合键，默认 X1→Ctrl+C、X2→Ctrl+V。</p>
+        <button class="sha-copy inline-flex items-center gap-2 font-mono text-xs text-fg2 hover:text-accent transition mb-3"
+                data-sha="B4EDE22D73EF1EB13BA18B85352B43C46869C648890D6BD7B50640C797F35158">
+          <span class="text-fg2">SHA-256:</span>
+          <span class="font-mono">B4EDE22D...97F35158</span>
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <div>
+          <a href="https://github.com/szboboxing/mouse-gesture-actions/releases" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-edge text-fg1 font-mono text-sm hover:border-accent hover:text-accent transition">
+            查看发布 <span class="arrow-move">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 交流 ============ -->
+  <section id="connect" class="py-16 sm:py-20 border-t border-edge">
+    <div class="reveal mb-10">
+      <p class="font-mono text-xs text-accent tracking-widest mb-2">// 03 — CONNECT</p>
+      <h2 class="text-2xl sm:text-3xl font-bold">交流 &amp; 留言</h2>
+    </div>
+
+    <!-- 三卡联系方式（★ 占位，替换为你的真实联系方式） -->
+    <div class="grid sm:grid-cols-3 gap-4 mb-10 reveal">
+      <div class="rounded-lg border border-edge bg-bg1 p-5 card-hov">
+        <div class="w-9 h-9 rounded border border-edge grid place-items-center mb-3 text-accent">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        </div>
+        <p class="font-mono text-xs text-fg2 mb-1">EMAIL</p>
+        <a href="mailto:boboxing@88.com" class="text-sm text-fg0 hover:text-accent transition break-all">boboxing@88.com</a>
+      </div>
+      <div class="rounded-lg border border-edge bg-bg1 p-5 card-hov">
+        <div class="w-9 h-9 rounded border border-edge grid place-items-center mb-3 text-accent">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <p class="font-mono text-xs text-fg2 mb-1">WECHAT / QQ GROUP</p>
+        <p class="text-sm text-fg0">★ 替换为群二维码图片</p>
+      </div>
+      <div class="rounded-lg border border-edge bg-bg1 p-5 card-hov">
+        <div class="w-9 h-9 rounded border border-edge grid place-items-center mb-3 text-accent">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.93 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.07 1 5.07 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </div>
+        <p class="font-mono text-xs text-fg2 mb-1">GITHUB</p>
+        <a href="https://github.com/szboboxing" target="_blank" rel="noopener" class="text-sm text-fg0 hover:text-accent transition">@szboboxing ↗</a>
+      </div>
+    </div>
+
+    <!-- 留言板（localStorage，纯前端） -->
+    <div class="rounded-lg border border-edge bg-bg1 p-6 reveal">
+      <div class="flex items-baseline justify-between mb-4">
+        <h3 class="font-mono text-sm text-accent">// 留言板</h3>
+        <span class="font-mono text-xs text-fg2" id="msg-count">0 条</span>
+      </div>
+      <form id="msg-form" class="flex flex-col sm:flex-row gap-3 mb-5">
+        <input id="msg-name" type="text" placeholder="昵称（可选）" maxlength="20"
+               class="sm:w-40 px-3 h-10 rounded bg-bg2 border border-edge text-fg0 text-sm focus:border-accent focus:outline-none">
+        <input id="msg-text" type="text" placeholder="留个言吧，数据只存你本地浏览器…" maxlength="200" required
+               class="flex-1 px-3 h-10 rounded bg-bg2 border border-edge text-fg0 text-sm focus:border-accent focus:outline-none">
+        <button type="submit" class="px-5 h-10 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">发送</button>
+      </form>
+      <ul id="msg-list" class="space-y-3"></ul>
+    </div>
+  </section>
+
+  <!-- ============ 关于 ============ -->
+  <section id="about" class="py-16 sm:py-20 border-t border-edge">
+    <div class="reveal mb-10">
+      <p class="font-mono text-xs text-accent tracking-widest mb-2">// 04 — ABOUT</p>
+      <h2 class="text-2xl sm:text-3xl font-bold">关于我</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8 reveal">
+      <div class="lg:col-span-2">
+        <p class="text-fg1 leading-relaxed mb-4">
+          独立开发者，主力在 Windows 平台做实用小工具。白天和表格、文件名、COM 自动化打交道，
+          晚上维护六个开源项目。相信工具应该解决具体问题，而不是炫技。
+        </p>
+        <p class="text-fg1 leading-relaxed mb-6">
+          这些项目都来自我自己的工作流：批量重命名是受够了手动改文件夹，
+          规约上传是 WPS 表格比对太费眼，鼠标手势是想让复制粘贴截图不用满屏找按钮。
+          鼠标Pro 则在开源 PourInput 基础上做全能增强，把按键映射、手势和系统工具收进一个面板；物业管理台账来自真实房东的手工 Excel 对账——每月翻表算欠款太痛，就写了套自动出账的系统。
+          自己用顺手了，就开源出来。
+        </p>
+        <div class="flex flex-wrap gap-2 font-mono text-xs">
+          <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">桌面工具开发</span>
+          <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Python / Tkinter</span>
+          <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Excel/WPS 自动化</span>
+          <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">Windows COM</span>
+          <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">AI API 集成</span>
+        </div>
+      </div>
+      <div class="rounded-lg border border-edge bg-bg1 p-5 font-mono text-sm">
+        <p class="text-fg2 mb-3">// status.txt</p>
+        <div class="space-y-1.5 text-fg1">
+          <div><span class="text-accent">current:</span> v3.18 / V2.5 / v1.0.1 / v1.3 / v2.3 / v1.3 六线维护</div>
+          <div><span class="text-accent">next:</span> 收集反馈，规划下一版</div>
+          <div><span class="text-accent">open:</span> issue / PR welcome</div>
+          <div><span class="text-accent">coffee:</span> 右下角打赏入口</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 技术栈 marquee 条幅 -->
+    <div class="mt-10 reveal">
+      <p class="font-mono text-xs text-fg2 mb-3">// stack</p>
+      <div class="marquee-mask overflow-hidden border-y border-edge py-3 no-bar">
+        <div class="marquee-track font-mono text-sm text-fg2">
+          <span class="px-6">Python</span><span class="text-edge">/</span>
+          <span class="px-6">Tkinter</span><span class="text-edge">/</span>
+          <span class="px-6">openpyxl</span><span class="text-edge">/</span>
+          <span class="px-6">requests</span><span class="text-edge">/</span>
+          <span class="px-6">pywin32</span><span class="text-edge">/</span>
+          <span class="px-6">PyInstaller</span><span class="text-edge">/</span>
+          <span class="px-6">Docker</span><span class="text-edge">/</span>
+          <span class="px-6">Git</span><span class="text-edge">/</span>
+          <!-- 重复一遍保证无缝循环 -->
+          <span class="px-6">Python</span><span class="text-edge">/</span>
+          <span class="px-6">Tkinter</span><span class="text-edge">/</span>
+          <span class="px-6">openpyxl</span><span class="text-edge">/</span>
+          <span class="px-6">requests</span><span class="text-edge">/</span>
+          <span class="px-6">pywin32</span><span class="text-edge">/</span>
+          <span class="px-6">PyInstaller</span><span class="text-edge">/</span>
+          <span class="px-6">Docker</span><span class="text-edge">/</span>
+          <span class="px-6">Git</span><span class="text-edge">/</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 页脚 ============ -->
+  <footer class="py-10 border-t border-edge text-center">
+    <p class="font-mono text-xs text-fg2">
+      © 2026 杰克陈 · Built with HTML + Tailwind · <span class="text-fg1"><a href="404.html" class="text-fg2 hover:text-ac transition underline decoration-dotted underline-offset-4" title="预览 404 页设计">404</a> · ★ 备案号占位</span>
+    </p>
+    <p class="font-mono text-xs text-fg2 mt-2">本页所有计数与留言仅存于你的浏览器 localStorage</p>
+  </footer>
+
+</main>
+
+<!-- ============ 悬浮交互组件 ============ -->
+<!-- 点赞 + 围观 -->
+<div class="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+  <button id="like-btn" aria-label="点赞"
+    class="group w-12 h-12 rounded-full border border-edge bg-bg1/95 backdrop-blur grid place-items-center text-fg1 hover:border-accent hover:text-accent transition relative">
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+    <span id="like-count" class="absolute -top-1 -right-1 font-mono text-[10px] bg-accent text-bg0 rounded-full px-1.5 py-0.5 min-w-[18px] text-center">0</span>
+  </button>
+  <button id="tip-btn" aria-label="打赏"
+    class="w-12 h-12 rounded-full border border-edge bg-bg1/95 backdrop-blur grid place-items-center text-fg1 hover:border-accent hover:text-accent transition">
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+  </button>
+</div>
+
+<!-- 打赏弹窗 -->
+<div id="tip-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background:rgba(0,0,0,.6);">
+  <div class="bg-bg1 border border-edge rounded-lg max-w-md w-full p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="font-mono text-accent text-sm">// 请喝咖啡</h3>
+      <button id="tip-close" aria-label="关闭" class="text-fg2 hover:text-fg0">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <p class="text-sm text-fg1 mb-5">如果工具帮到了你，可以请作者喝杯咖啡 ☕</p>
+    <div class="grid grid-cols-2 gap-4">
+      <!-- ★ 替换为你的收款码图片：<img src="wechat.png" class="w-full rounded"> -->
+      <div class="text-center">
+        <div class="aspect-square rounded border border-edge bg-bg2 grid place-items-center mb-2">
+          <span class="font-mono text-xs text-fg2">★ 微信码<br>占位</span>
+        </div>
+        <p class="font-mono text-xs text-fg2">微信</p>
+      </div>
+      <div class="text-center">
+        <div class="aspect-square rounded border border-edge bg-bg2 grid place-items-center mb-2">
+          <span class="font-mono text-xs text-fg2">★ 支付宝<br>码占位</span>
+        </div>
+        <p class="font-mono text-xs text-fg2">支付宝</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-20 right-5 z-50 hidden font-mono text-xs px-3 py-2 rounded border border-accent bg-bg1 text-accent"></div>
+
+<script>
+/* ============================================================
+   原生 JS 交互（零第三方框架）
+   ============================================================ */
+
+/* ---------- 1. 主题切换 + 记忆 ---------- */
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('icon-moon').classList.toggle('hidden', t==='light');
+  document.getElementById('icon-sun').classList.toggle('hidden', t==='dark');
+  try{ localStorage.setItem('theme', t); }catch(e){}
+}
+function toggleTheme(){
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur==='dark'?'light':'dark');
+}
+try{
+  const saved = localStorage.getItem('theme');
+  if(saved) applyTheme(saved);
+}catch(e){}
+document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+/* ---------- 2. 顶部进度线 ---------- */
+const pbar = document.getElementById('progress-bar');
+function updateProgress(){
+  const h = document.documentElement;
+  const scrolled = h.scrollTop;
+  const total = h.scrollHeight - h.clientHeight;
+  pbar.style.width = (total>0 ? (scrolled/total*100) : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+/* ---------- 3. 移动端菜单 ---------- */
+const mBtn = document.getElementById('menu-btn');
+const mMenu = document.getElementById('mobile-menu');
+mBtn.addEventListener('click', ()=> mMenu.classList.toggle('hidden'));
+mMenu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mMenu.classList.add('hidden')));
+
+/* ---------- 4. 打字机轮播 ---------- */
+const lines = [
+  '独立开发者 / Windows 工具作者',
+  '做解决真实痛点的小工具',
+  '六个项目 · 一个原则：能跑、好用、不装'
+];
+const tw = document.getElementById('typewriter');
+let li=0, ci=0, deleting=false;
+function tick(){
+  const cur = lines[li];
+  if(!deleting){
+    tw.textContent = cur.slice(0, ci++);
+    if(ci > cur.length){ deleting=true; setTimeout(tick, 1600); return; }
+  }else{
+    tw.textContent = cur.slice(0, ci--);
+    if(ci < 0){ deleting=false; li=(li+1)%lines.length; ci=0; }
+  }
+  setTimeout(tick, deleting?40:90);
+}
+tick();
+
+/* ---------- 5. 滚动入场 ---------- */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+/* ---------- 6. 围观计数 ---------- */
+const vc = document.getElementById('views-count');
+try{
+  let v = parseInt(localStorage.getItem('views')||'42', 10);
+  v++; localStorage.setItem('views', v);
+  vc.textContent = v;
+}catch(e){ vc.textContent = '42'; }
+
+/* ---------- 7. 点赞 + 粒子迸发 ---------- */
+const likeBtn = document.getElementById('like-btn');
+const likeCount = document.getElementById('like-count');
+const LIKE_BASE = 128; // ★ 点赞基数，可调
+try{
+  let liked = localStorage.getItem('liked')==='1';
+  let likes = parseInt(localStorage.getItem('likes')||String(LIKE_BASE), 10);
+  function renderLike(){ likeCount.textContent = likes; likeBtn.classList.toggle('text-accent', liked); likeBtn.classList.toggle('border-accent', liked); }
+  renderLike();
+  likeBtn.addEventListener('click', (e)=>{
+    if(liked){ showToast('已经点过赞啦'); return; }
+    liked = true; likes++;
+    localStorage.setItem('liked','1'); localStorage.setItem('likes', likes);
+    renderLike();
+    burst(e);
+    showToast('谢谢点赞 +1');
+  });
+}catch(err){}
+
+function burst(e){
+  const r = likeBtn.getBoundingClientRect();
+  const cx = r.left + r.width/2, cy = r.top + r.height/2;
+  const n = 10;
+  for(let i=0;i<n;i++){
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.style.left = cx+'px'; s.style.top = cy+'px';
+    document.body.appendChild(s);
+    const ang = (Math.PI*2*i/n) + Math.random()*0.4;
+    const dist = 40 + Math.random()*40;
+    const dx = Math.cos(ang)*dist, dy = Math.sin(ang)*dist - 20;
+    s.animate([
+      { transform:'translate(0,0) scale(1)', opacity:1 },
+      { transform:`translate(${dx}px,${dy}px) scale(0)`, opacity:0 }
+    ], { duration: 600+Math.random()*200, easing:'cubic-bezier(.2,.7,.3,1)' }).onfinish = ()=> s.remove();
+  }
+}
+
+/* ---------- 8. 打赏弹窗 ---------- */
+const tipModal = document.getElementById('tip-modal');
+function openTip(){ tipModal.classList.remove('hidden'); tipModal.classList.add('flex'); }
+function closeTip(){ tipModal.classList.add('hidden'); tipModal.classList.remove('flex'); }
+document.getElementById('tip-btn').addEventListener('click', openTip);
+document.getElementById('tip-close').addEventListener('click', closeTip);
+tipModal.addEventListener('click', (e)=>{ if(e.target===tipModal) closeTip(); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeTip(); });
+
+/* ---------- 9. SHA-256 复制 ---------- */
+document.querySelectorAll('.sha-copy').forEach(btn=>{
+  btn.addEventListener('click', async ()=>{
+    const sha = btn.dataset.sha;
+    try{
+      await navigator.clipboard.writeText(sha);
+      showToast('SHA-256 已复制');
+    }catch(e){
+      const ta=document.createElement('textarea'); ta.value=sha; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); showToast('SHA-256 已复制'); }catch(_){ showToast('复制失败，请手动选'); }
+      ta.remove();
+    }
+  });
+});
+
+/* ---------- 10. Toast ---------- */
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.add('hidden'), 1800);
+}
+
+/* ---------- 11. 留言板（localStorage） ---------- */
+const MSG_KEY = 'guestbook_v2';
+const form = document.getElementById('msg-form');
+const nameInput = document.getElementById('msg-name');
+const textInput = document.getElementById('msg-text');
+const list = document.getElementById('msg-list');
+const counter = document.getElementById('msg-count');
+
+// 预置 3 条示例留言（首次访问展示效果用）
+const SEED = [
+  { name:'访客A', text:'工具很实用，K/L 联动省了我好多事', time:Date.now()-86400000*2 },
+  { name:'路人乙', text:'右键手势+侧键截图太好用了，回不去了', time:Date.now()-86400000 },
+  { name:'匿名', text:'深底+终端青的配色真好看，不AI味', time:Date.now()-3600000 }
+];
+
+function loadMsgs(){
+  try{
+    let arr = JSON.parse(localStorage.getItem(MSG_KEY) || 'null');
+    if(!arr){ arr = SEED; localStorage.setItem(MSG_KEY, JSON.stringify(arr)); }
+    return arr;
+  }catch(e){ return SEED; }
+}
+function saveMsgs(arr){ try{ localStorage.setItem(MSG_KEY, JSON.stringify(arr)); }catch(e){} }
+function fmtTime(t){
+  const d = new Date(t);
+  const pad = n=> String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function renderMsgs(){
+  const arr = loadMsgs();
+  counter.textContent = arr.length + ' 条';
+  list.innerHTML = arr.slice().reverse().map(m=>`
+    <li class="flex gap-3 p-3 rounded border border-edge bg-bg2">
+      <div class="w-8 h-8 rounded-full bg-bg0 border border-edge grid place-items-center font-mono text-xs text-accent shrink-0">
+        ${(m.name||'匿').slice(0,1).toUpperCase()}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-baseline gap-2 mb-0.5">
+          <span class="font-mono text-sm text-fg0">${escapeHtml(m.name||'匿名')}</span>
+          <span class="font-mono text-[10px] text-fg2">${fmtTime(m.time)}</span>
+        </div>
+        <p class="text-sm text-fg1 break-words">${escapeHtml(m.text)}</p>
+      </div>
+    </li>
+  `).join('');
+}
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+form.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const text = textInput.value.trim();
+  if(!text) return;
+  const arr = loadMsgs();
+  arr.push({ name:nameInput.value.trim(), text, time:Date.now() });
+  saveMsgs(arr);
+  textInput.value=''; nameInput.value='';
+  renderMsgs();
+  showToast('留言已保存（仅本地）');
+});
+renderMsgs();
+</script>
+<!-- ===== STYLE SWITCHER (A 面板 + B 悬浮色环) BEGIN ===== -->
+<style>
+#sw-panel{position:fixed;top:60px;right:16px;width:320px;max-width:calc(100vw - 24px);z-index:200;
+  background:rgba(10,12,19,.92);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:14px;
+  box-shadow:0 18px 50px -12px rgba(0,0,0,.7);opacity:0;transform:translateY(-8px) scale(.97);pointer-events:none;
+  transition:opacity .2s,transform .2s}
+#sw-panel.sw-show{opacity:1;transform:none;pointer-events:auto}
+#sw-panel .sw-h{font-family:ui-monospace,Consolas,Menlo,monospace;font-size:10px;letter-spacing:.18em;color:#8b93a7;margin-bottom:10px}
+#sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.sw-app{grid-column:1/-1;background:rgba(245,158,11,.10);border-color:rgba(245,158,11,.42)}.sw-app:hover{background:rgba(245,158,11,.20)!important}.sw-app .sw-en{color:#E8B060}
+.sw-card{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.035);text-decoration:none;
+  color:#e8eaee;transition:.18s;position:relative}
+.sw-card:hover{background:rgba(255,255,255,.09);transform:translateY(-1px)}
+.sw-card.sw-cur{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.08)}
+.sw-dot{width:15px;height:15px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,.25)}
+.sw-card .sw-nm{font-size:13px;font-weight:600;line-height:1.15;display:block}
+.sw-card .sw-en{font-family:ui-monospace,Consolas,Menlo,monospace;font-size:9px;color:#8b93a7;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sw-card.sw-cur::after{content:'当前';position:absolute;top:5px;right:7px;font-family:ui-monospace,Consolas,monospace;font-size:8px;color:#9be8ff}
+.sw-note{font-size:10px;color:#6b7280;margin-top:10px;line-height:1.5}
+
+#sw-dock{position:fixed;right:20px;bottom:122px;width:48px;height:48px;z-index:200}
+#sw-dockbtn{position:absolute;right:0;bottom:0;width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;z-index:2;
+  background:conic-gradient(from 200deg,#22D3EE,#8B5CF6,#F472D0,#D9B57D,#22D3EE);
+  box-shadow:0 6px 22px -4px rgba(34,211,238,.55),inset 0 0 0 2px rgba(255,255,255,.18);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;display:grid;place-items:center}
+#sw-dock.sw-open #sw-dockbtn{transform:rotate(135deg) scale(1.06);box-shadow:0 6px 28px -2px rgba(244,114,208,.65),inset 0 0 0 2px rgba(255,255,255,.28)}
+.sw-di{position:absolute;right:8px;bottom:8px;width:30px;height:30px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);cursor:pointer;opacity:0;transform:translate(0,0) scale(.2);
+  transition:transform .42s cubic-bezier(.34,1.56,.64,1),opacity .28s;z-index:1;padding:0}
+#sw-dock.sw-open .sw-di{opacity:1}
+.sw-di:hover{border-color:#fff;z-index:3}
+.sw-di.sw-cur{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.35),0 0 12px rgba(255,255,255,.5)}
+.sw-tip{position:absolute;right:38px;top:50%;transform:translateY(-50%);background:rgba(10,12,19,.94);
+  padding:3px 9px;border-radius:7px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;
+  transition:opacity .18s;border:1px solid rgba(255,255,255,.14);color:#e8eaee}
+.sw-di:hover .sw-tip{opacity:1}
+/* 触屏：名称常驻、显示在色点上方 */
+@media (hover:none){
+  #sw-dock.sw-touch .sw-tip{opacity:1;right:50%;top:auto;bottom:34px;transform:translateX(50%);font-size:10px;padding:2px 7px}
+  #sw-dock{--sw-r:72px}
+}
+@media(max-width:640px){#sw-panel{top:56px}#sw-dock{--sw-r:72px}}
+</style>
+
+<div id="sw-panel" role="dialog" aria-label="选择页面风格">
+  <p class="sw-h">CHOOSE YOUR STYLE</p>
+  <div id="sw-grid"></div>
+  <p class="sw-note">八个版本内容完全一致，仅视觉风格不同。当前风格已标记。</p>
+</div>
+
+<div id="sw-dock">
+  <button id="sw-dockbtn" aria-label="切换页面风格" title="切换页面风格">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1-2-2c0-1.1.9-2 2-2h2.5a4.5 4.5 0 0 0 4.5-4.5A10 10 0 0 0 12 2z"/></svg>
+  </button>
+</div>
+
+<script>
+(function(){
+  if(window.__swInited)return;window.__swInited=1;
+  var STYLES=[
+    {n:'鎏金',e:'Obsidian Gold',c:'#D9B57D',u:'index.html'},
+    {n:'几何',e:'Geometry',c:'#38BDF8',u:'index2.html'},
+    {n:'电路',e:'Circuit',c:'#2DD4BF',u:'index3.html'},
+    {n:'紫玻璃',e:'Purple Glass',c:'#8B5CF6',u:'index4.html'},
+    {n:'极光',e:'Aurora',c:'#5EEAD4',u:'index5.html'},
+    {n:'终端',e:'Terminal',c:'#22D3EE',u:'index6.html'},
+    {n:'霓虹',e:'Neon AI Core',c:'#F472D0',u:'index7.html',g:true},
+    {n:'北欧',e:'Nordic',c:'#A8A29E',u:'index8.html'},
+  ];
+  var APPS=[
+    {n:'收音机',e:'Radio Box',c:'#F59E0B',u:'radio.html',r:true},
+    {n:'物业台账',e:'Property Ledger',c:'#D9B57D',u:'property-ledger.html',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'}
+  ];
+  var page=(location.pathname.split('/').pop()||'index.html').split('?')[0];
+  var PALETTE='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1-2-2c0-1.1.9-2 2-2h2.5a4.5 4.5 0 0 0 4.5-4.5A10 10 0 0 0 12 2z"/></svg>';
+
+  /* ---- A：导航按钮（克隆主题钮/汉堡钮样式，融入各页） ---- */
+  var panel=document.getElementById('sw-panel'),grid=document.getElementById('sw-grid');
+  function mkNavBtn(cls){
+    var b=document.createElement('button');
+    b.type='button';b.setAttribute('aria-label','切换页面风格');b.title='切换页面风格';
+    b.className=cls;b.innerHTML=PALETTE;
+    b.addEventListener('click',function(e){e.stopPropagation();togglePanel();});
+    return b;
+  }
+  var desk=document.querySelector('#theme-toggle,#tt');
+  if(desk&&desk.parentNode)desk.parentNode.insertBefore(mkNavBtn(desk.className),desk);
+  var mob=document.querySelector('#menu-btn,#mb');
+  if(mob&&mob.parentNode)mob.parentNode.insertBefore(mkNavBtn(mob.className),mob);
+
+  /* ---- A：面板卡片（8 风格 + 独立「在线体验区」） ---- */
+  function mkCard(s){
+    var a=document.createElement('a');
+    a.href=s.u;a.className='sw-card'+(s.r?' sw-app':'')+(s.u===page?' sw-cur':'');
+    if(s.css)a.style.cssText=s.css;
+    a.innerHTML='<span class="sw-dot" style="background:'+(s.g?'linear-gradient(135deg,#22D3EE,#F472D0)':s.c)+';box-shadow:0 0 9px '+s.c+'80"></span>'+
+      '<span style="min-width:0"><span class="sw-nm">'+s.n+'</span><span class="sw-en">'+s.e+'</span></span>';
+    return a;
+  }
+  STYLES.forEach(function(s){grid.appendChild(mkCard(s));});
+  var zone=document.createElement('div');
+  zone.style.cssText='grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:5px 0 2px';
+  zone.innerHTML='<span style="font-family:ui-monospace,Consolas,monospace;font-size:9px;letter-spacing:.16em;color:#E8B060;white-space:nowrap">✦ 在线体验区</span><span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(217,181,125,.5),transparent)"></span>';
+  grid.appendChild(zone);
+  APPS.forEach(function(s){grid.appendChild(mkCard(s));});
+  function togglePanel(force){
+    var show=force!==undefined?force:!panel.classList.contains('sw-show');
+    panel.classList.toggle('sw-show',show);
+    if(show)closeDock();
+  }
+  document.addEventListener('click',function(e){
+    if(panel.classList.contains('sw-show')&&!panel.contains(e.target)&&!e.target.closest('#theme-toggle,#tt,#menu-btn,#mb')&&!e.target.hasAttribute('aria-label'))
+      panel.classList.remove('sw-show');
+  });
+
+  /* ---- B：扇形 dock ---- */
+  var dock=document.getElementById('sw-dock'),dbtn=document.getElementById('sw-dockbtn');
+  var N=STYLES.length+APPS.length, A0=-150,A1=-30;
+  function radius(){var cs=getComputedStyle(dock);var v=parseInt(cs.getPropertyValue('--sw-r'));return(!isNaN(v)&&v)||(window.innerWidth<=640?72:100);}
+  var items=[];
+  STYLES.concat(APPS).forEach(function(s,i){
+    var ang=(A0+(A1-A0)*i/(N-1))*Math.PI/180;
+    var b=document.createElement('a');
+    b.href=s.u;b.className='sw-di'+(s.u===page?' sw-cur':'');
+    b.title=s.n+' · '+s.e;
+    b.style.background=s.g?'linear-gradient(135deg,#22D3EE,#F472D0)':s.c;
+    b.style.boxShadow='0 0 11px '+s.c+'99';
+    b.innerHTML='<span class="sw-tip">'+s.n+' · '+s.e+'</span>';
+    b._x=Math.cos(ang);b._y=Math.sin(ang);b._i=i;
+    dock.appendChild(b);items.push(b);
+  });
+  if(window.matchMedia('(hover: none)').matches)dock.classList.add('sw-touch');
+  function openDock(show){
+    dock.classList.toggle('sw-open',show);
+    var R=radius();
+    items.forEach(function(b,i){
+      if(show){
+        setTimeout(function(){b.style.transform='translate('+(b._x*R)+'px,'+(b._y*R)+'px) scale(1)';b.style.transitionDelay=(i*35)+'ms';},10);
+      }else{
+        b.style.transform='translate(0,0) scale(.2)';b.style.transitionDelay='0ms';
+      }
+    });
+    if(show)panel.classList.remove('sw-show');
+  }
+  function closeDock(){if(dock.classList.contains('sw-open'))openDock(false);}
+  dbtn.addEventListener('click',function(e){e.stopPropagation();openDock(!dock.classList.contains('sw-open'));});
+  document.addEventListener('click',function(e){
+    if(dock.classList.contains('sw-open')&&!dock.contains(e.target))openDock(false);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){panel.classList.remove('sw-show');openDock(false);}
+  });
+  window.addEventListener('resize',function(){if(dock.classList.contains('sw-open')){var R=radius();items.forEach(function(b){b.style.transform='translate('+(b._x*R)+'px,'+(b._y*R)+'px) scale(1)';});}});
+})();
+</script>
+<!-- ===== STYLE SWITCHER END ===== -->
+
+</body>
+</html>
