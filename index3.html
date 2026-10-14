@@ -188,7 +188,7 @@
             <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
             <span class="text-fg1">6 projects · active</span>
           </div>
-          <div class="text-fg2">latest <span class="text-accent">v1.3</span> / <span class="text-accent">v3.18</span> / <span class="text-accent">V2.5</span> / <span class="text-accent">v1.0.1</span> / <span class="text-accent">v1.3</span> / <span class="text-accent">v2.3</span></div>
+          <div class="text-fg2">latest <span class="text-accent">v1.3</span> / <span class="text-accent">v3.18</span> / <span class="text-accent">V2.5</span> / <span class="text-accent">v1.0.1</span> / <span class="text-accent">v1.4</span> / <span class="text-accent">v2.4</span></div>
           <div class="text-fg2">围观 <span id="views-count" class="text-accent">0</span></div>
         </div>
       </div>
@@ -506,8 +506,8 @@
           <div>
             <h3 class="text-xl font-bold">物业管理台账 Property Ledger</h3>
             <div class="flex items-center gap-2 mt-1">
-              <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v2.3</span>
-              <span class="font-mono text-xs text-fg2">2026-10-13</span>
+              <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v2.4</span>
+              <span class="font-mono text-xs text-fg2">2026-10-14</span>
             </div>
           </div>
         </div>
@@ -525,9 +525,9 @@
           <div>
             <p class="font-mono text-xs text-accent mb-1.5">FIX</p>
             <ul class="space-y-1 text-xs text-fg0">
-              <li>▸ 按月自动出账，初始化账单一键平历史欠款，支持租金递增</li>
-              <li>▸ 欠款一览按租客分页列出逾期，报表按物业/月份汇总</li>
-              <li>▸ 中文账单图含收款码，批量结清未付账单</li>
+              <li>▸ 浅色 / 暗色一键切换；按月自动出账，初始化平历史欠款，支持租金递增</li>
+              <li>▸ 改租金 / 租期自动重算账单（已收款与补录账单锁定），挂杂费阻止误删</li>
+              <li>▸ 欠款一览按租客分页列出逾期，中文账单图含收款码，可批量结清</li>
             </ul>
           </div>
         </div>
@@ -546,9 +546,9 @@
              class="group inline-flex items-center gap-1.5 px-3 h-9 rounded border border-edge text-fg0 font-mono text-xs hover:border-accent hover:text-accent transition">
             GitHub <span class="arrow-move">↗</span>
           </a>
-          <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.3" target="_blank" rel="noopener"
+          <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.4" target="_blank" rel="noopener"
              class="group inline-flex items-center gap-1.5 px-3 h-9 rounded border border-accent bg-accent text-bg0 font-mono text-xs hover:opacity-90 transition">
-            下载 v2.3 ↓
+            下载 v2.4 ↓
           </a>
         </div>
       </article>
@@ -560,8 +560,8 @@
           <div>
             <h3 class="text-xl font-bold">物业管理台账 HTML 单文件版</h3>
             <div class="flex items-center gap-2 mt-1">
-              <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v1.3</span>
-              <span class="font-mono text-xs text-fg2">2026-10-12</span>
+              <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v1.4</span>
+              <span class="font-mono text-xs text-fg2">2026-10-14</span>
             </div>
           </div>
         </div>
@@ -581,7 +581,7 @@
             <ul class="space-y-1 text-xs text-fg0">
               <li>▸ 两文件备份 U 盘随身：物业管理台账.html + 使用说明.html</li>
               <li>▸ IndexedDB 本地存储 + 数据文件绑定（Chrome/Edge）防清缓存</li>
-              <li>▸ 业务语义对齐 property-ledger v2.3</li>
+              <li>▸ 业务语义对齐 v2.4：月付/季付出账、改租约自动重算、浅色主题、批量结清、账单图</li>
             </ul>
           </div>
         </div>
@@ -599,9 +599,9 @@
              class="group inline-flex items-center gap-1.5 px-3 h-9 rounded border border-edge text-fg0 font-mono text-xs hover:border-accent hover:text-accent transition">
             GitHub <span class="arrow-move">↗</span>
           </a>
-          <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.3" target="_blank" rel="noopener"
+          <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.4" target="_blank" rel="noopener"
              class="group inline-flex items-center gap-1.5 px-3 h-9 rounded border border-accent bg-accent text-bg0 font-mono text-xs hover:opacity-90 transition">
-            下载 v1.3 ↓
+            下载 v1.4 ↓
           </a>
         </div>
       </article>
@@ -618,28 +618,54 @@
 
     <!-- 桌面端：横向时间线网格（md 3 列，lg 5 列） -->
     <div class="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-4 reveal">
-      <!-- v2.3 Property Ledger -->
+      <!-- v2.4 Property Ledger -->
       <div class="rounded-lg border border-accent bg-bg1 p-5 flex flex-col card-hov">
         <span class="w-2 h-2 rounded-full bg-accent mb-3"></span>
-        <h3 class="font-mono font-bold text-accent text-base">v2.3</h3>
-        <span class="font-mono text-[10px] text-fg2 mb-2">2026-10-13</span>
-        <p class="text-xs text-fg1 leading-relaxed mb-3 flex-1">同步 HTML 版：鎏金暗色界面；租期年数 1-20 年、租金递增（按比例/按金额）；批量结清新「账单当月」收款日期；报表按物业/月份汇总翻页。</p>
+        <h3 class="font-mono font-bold text-accent text-base">v2.4</h3>
+        <span class="font-mono text-[10px] text-fg2 mb-2">2026-10-14</span>
+        <p class="text-xs text-fg1 leading-relaxed mb-3 flex-1">浅色 / 暗色主题一键切换（偏好持久化、首屏防白闪）；新建租约月租金必填；编辑起租日 / 到期日 / 租金 / 递增 / 付租日 / 月付季付后，预览确认即按新条款重算未付账单、删除失效账单、补建缺失账期；已有收款（含部分收款）与人工补录账单锁定不动；挂杂费的失效账单阻止保存。无数据库结构变更。</p>
         <div class="mb-3"></div>
-        <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.3" target="_blank" rel="noopener"
+        <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.4" target="_blank" rel="noopener"
            class="group inline-flex items-center justify-center gap-1 px-3 h-8 rounded border border-accent bg-accent text-bg0 font-mono text-xs hover:opacity-90 transition">
           下载 ↓
         </a>
       </div>
-      <!-- v1.3 物业管理台账 HTML 单文件版 -->
+      <!-- v1.4 物业管理台账 HTML 单文件版 -->
       <div class="rounded-lg border border-accent bg-bg1 p-5 flex flex-col card-hov">
         <span class="w-2 h-2 rounded-full bg-accent mb-3"></span>
-        <h3 class="font-mono font-bold text-accent text-base">v1.3</h3>
+        <h3 class="font-mono font-bold text-accent text-base">v1.4</h3>
+        <span class="font-mono text-[10px] text-fg2 mb-2">2026-10-14</span>
+        <p class="text-xs text-fg1 leading-relaxed mb-3 flex-1">同步 Docker v2.4：浅色主题一键切换（登录页 / 顶栏 / 侧栏，偏好持久化）；月租金新建必填；修改租金、租期等关键内容后账单自动重算（重算 / 删除 / 补建），已收款与补录账单锁定，挂杂费阻止保存。</p>
+        <button class="sha-copy font-mono text-[10px] text-fg2 hover:text-accent mb-3 text-left"
+                data-sha="01AD47072E4DDD299BCA06F99670C91F03A1557D386C7AA9189AAAF0832425E32">
+          SHA: 01AD…25E3</button>
+        <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.4" target="_blank" rel="noopener"
+           class="group inline-flex items-center justify-center gap-1 px-3 h-8 rounded border border-accent bg-accent text-bg0 font-mono text-xs hover:opacity-90 transition">
+          下载 ↓
+        </a>
+      </div>
+      <!-- v2.3 Property Ledger -->
+      <div class="rounded-lg border border-edge bg-bg1 p-5 flex flex-col card-hov">
+        <span class="w-2 h-2 rounded-full bg-fg2 mb-3"></span>
+        <h3 class="font-mono font-bold text-fg0 text-base">v2.3</h3>
+        <span class="font-mono text-[10px] text-fg2 mb-2">2026-10-13</span>
+        <p class="text-xs text-fg1 leading-relaxed mb-3 flex-1">同步 HTML 版：鎏金暗色界面；租期年数 1-20 年、租金递增（按比例/按金额）；批量结清新「账单当月」收款日期；报表按物业/月份汇总翻页。</p>
+        <div class="mb-3"></div>
+        <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.3" target="_blank" rel="noopener"
+           class="group inline-flex items-center justify-center gap-1 px-3 h-8 rounded border border-edge text-fg1 font-mono text-xs hover:border-accent hover:text-accent transition">
+          获取 ↗
+        </a>
+      </div>
+      <!-- v1.3 物业管理台账 HTML 单文件版 -->
+      <div class="rounded-lg border border-edge bg-bg1 p-5 flex flex-col card-hov">
+        <span class="w-2 h-2 rounded-full bg-fg2 mb-3"></span>
+        <h3 class="font-mono font-bold text-fg0 text-base">v1.3</h3>
         <span class="font-mono text-[10px] text-fg2 mb-2">2026-10-13</span>
         <p class="text-xs text-fg1 leading-relaxed mb-3 flex-1">手机浏览器全面适配修复：窄屏列表不再被裁切、输入框不再自动放大、小屏按钮不再溢出、键盘遮挡缓解。</p>
         <div class="mb-3"></div>
         <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.3" target="_blank" rel="noopener"
-           class="group inline-flex items-center justify-center gap-1 px-3 h-8 rounded border border-accent bg-accent text-bg0 font-mono text-xs hover:opacity-90 transition">
-          下载 ↓
+           class="group inline-flex items-center justify-center gap-1 px-3 h-8 rounded border border-edge text-fg1 font-mono text-xs hover:border-accent hover:text-accent transition">
+          获取 ↗
         </a>
       </div>
       <!-- v1.0.0 物业管理台账 HTML 单文件版 -->
@@ -802,6 +828,26 @@
 
     <!-- 移动端：竖排时间线 -->
     <div class="md:hidden relative pl-5 border-l border-edge reveal">
+      <div class="relative mb-7">
+        <span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-accent"></span>
+        <div class="flex flex-wrap items-baseline gap-2 mb-1">
+          <h3 class="font-mono font-bold text-accent">v2.4</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-14</span>
+        </div>
+        <p class="text-xs text-fg1 mb-2">浅色/暗色一键切换；改租金租期账单自动重算，已收款与补录账单锁定；新建租约租金必填</p>
+        <a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.4" target="_blank" rel="noopener"
+           class="font-mono text-xs text-accent">获取 ↗</a>
+      </div>
+      <div class="relative mb-7">
+        <span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-accent"></span>
+        <div class="flex flex-wrap items-baseline gap-2 mb-1">
+          <h3 class="font-mono font-bold text-accent">v1.4</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-14</span>
+        </div>
+        <p class="text-xs text-fg1 mb-2">浅色/暗色一键切换；改租金租期账单自动重算，已收款与补录账单锁定；新建租约租金必填</p>
+        <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.4" target="_blank" rel="noopener"
+           class="font-mono text-xs text-accent">下载 ↓</a>
+      </div>
       <div class="relative mb-7">
         <span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-accent"></span>
         <div class="flex flex-wrap items-baseline gap-2 mb-1">
@@ -988,7 +1034,7 @@
       <div class="lg:col-span-2 rounded-lg border border-edge bg-bg1 p-5 font-mono text-sm">
         <p class="text-fg2 mb-3">// status.txt</p>
         <div class="space-y-1.5 text-fg1">
-          <div><span class="text-accent">current:</span> v3.18 / V2.5 / v1.0.1 / v1.3 / v2.3 / v1.3 六线维护</div>
+          <div><span class="text-accent">current:</span> v3.18 / V2.5 / v1.0.1 / v1.4 / v2.4 五线维护</div>
           <div><span class="text-accent">next:</span> 收集反馈，规划下一版</div>
           <div><span class="text-accent">open:</span> issue / PR welcome</div>
           <div><span class="text-accent">coffee:</span> 右下角打赏入口</div>
