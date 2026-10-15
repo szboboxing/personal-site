@@ -116,14 +116,14 @@ body{background:var(--bg0);color:var(--f0);transition:background .5s,color .3s;o
     <div class="lg:col-span-7 reveal">
       <p class="font-mono text-xs tracking-[.25em] mb-4"><span class="text-ac neon-t">// SYSTEM ONLINE</span> · DEV SINCE 2025</p>
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-5"><span class="whitespace-nowrap">做解决</span><br class="hidden sm:block"><span class="grad-t whitespace-nowrap">真实痛点</span><br class="hidden sm:block"><span class="whitespace-nowrap">的小工具</span></h1>
-      <p class="text-f1 leading-relaxed text-base sm:text-lg max-w-xl mb-8">六个长期维护的开源项目：一个把批量重命名和表格规约自动化，一个让鼠标手势更好用，一个把鼠标按键映射和系统增强做到极致，一个帮房东记账催租，一个打开就听的网页收音机，还有一个把物业管理台账重构成纯 HTML 单文件版，双击即用不装 Docker。不追技术时髦，只做能省下别人时间的东西。</p>
+      <p class="text-f1 leading-relaxed text-base sm:text-lg max-w-xl mb-8">七个长期维护的开源项目：一个把批量重命名和表格规约自动化，一个让鼠标手势更好用，一个把鼠标按键映射和系统增强做到极致，一个帮房东记账催租，一个打开就听的网页收音机，还有一个把物业管理台账重构成纯 HTML 单文件版，双击即用不装 Docker；PHP 版再补一个零成本上云选择：免费虚拟主机就能跑，手机电脑随时查账。不追技术时髦，只做能省下别人时间的东西。</p>
       <div class="flex flex-wrap gap-3">
         <a href="#projects" class="btn-p px-6 h-12 inline-flex items-center gap-2 font-mono text-sm">浏览项目 →</a>
         <a href="https://github.com/szboboxing" target="_blank" class="btn-s px-6 h-12 inline-flex items-center gap-2 font-mono text-sm">GitHub ↗</a>
       </div>
       <div class="mt-10 flex flex-wrap gap-6 font-mono text-sm text-f2">
-        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-ac animate-pulse" style="box-shadow:0 0 8px var(--ac)"></span>6 projects · active</span>
-        <span>latest <b class="text-ac">v1.3</b> / <b class="text-ac">v3.18</b> / <b class="text-ac2">V2.5</b> / <b class="text-ac">v1.0.1</b> / <b class="text-ac">v1.4</b> / <b class="text-ac">v2.4</b></span>
+        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-ac animate-pulse" style="box-shadow:0 0 8px var(--ac)"></span>7 projects · active</span>
+        <span>latest <b class="text-ac">v1.3</b> / <b class="text-ac">v3.18</b> / <b class="text-ac2">V2.5</b> / <b class="text-ac">v1.0.1</b> / <b class="text-ac">v1.4</b> / <b class="text-ac">v2.4</b> / <b class="text-ac">v1.0</b></span>
         <span>围观 <b id="vc" class="text-ac">0</b></span>
       </div>
     </div>
@@ -196,7 +196,7 @@ test.keys(1024)</div>
 
   <!-- PROJECTS -->
   <section id="projects" class="py-16 sm:py-20 border-t" style="border-color:var(--line)">
-    <div class="reveal mb-10"><p class="font-mono text-xs text-ac tracking-[.25em] mb-2 neon-t">// MODULES</p><h2 class="text-2xl sm:text-3xl font-bold">六个长期维护的开源工具</h2></div>
+    <div class="reveal mb-10"><p class="font-mono text-xs text-ac tracking-[.25em] mb-2 neon-t">// MODULES</p><h2 class="text-2xl sm:text-3xl font-bold">七个长期维护的开源工具</h2></div>
     <div class="grid md:grid-cols-2 gap-6">
       <article class="g g-lg reveal p-7 hov flex flex-col">
         <div class="flex items-baseline gap-3 mb-3"><span class="font-mono text-5xl font-bold leading-none" style="color:var(--line)">01</span>
@@ -311,6 +311,25 @@ test.keys(1024)</div>
           <a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.4" target="_blank" class="btn-p px-3 h-9 inline-flex items-center font-mono text-xs">下载 v1.4 ↓</a>
         </div>
       </article>
+
+      <article class="g g-lg reveal p-7 hov flex flex-col" style="border-color:rgba(244,114,208,.45)">
+        <div class="flex items-baseline gap-3 mb-3"><span class="font-mono text-5xl font-bold leading-none" style="color:var(--line)">07</span>
+        <div><h3 class="text-xl font-bold">物业管理台账 PHP 版</h3><div class="flex gap-2 mt-1 font-mono text-xs"><span class="chip px-2 py-0.5">v1.0</span><span class="text-f2">2026-10-16</span></div></div></div>
+        <p class="text-f1 text-sm mb-5">把台账搬上免费虚拟主机：5 个文件 FTP 上传，网页向导 30 秒装好；PHP + MySQL，手机电脑打开网页就能记账催租。</p>
+        <div class="space-y-3 mb-5 flex-1 text-xs">
+          <p class="font-mono text-f2 tracking-wider">PAIN</p>
+          <ul class="space-y-1 text-f1"><li>· HTML 单机版数据锁在浏览器，出门用手机查不了账</li><li>· Docker 版要常驻机器，装环境配数据库自己搞不定</li><li>· 买服务器一年几百块，只为记账太不划算</li></ul>
+          <p class="font-mono text-ac tracking-wider">FIX</p>
+          <ul class="space-y-1 text-f0"><li>▸ 原生 PHP 8 + MySQL，无框架无依赖，免费虚拟主机直接跑</li><li>▸ 网页向导自动测连接、建 10 张表、建管理员，30 秒上线</li><li>▸ 自动出账 / 改租智能重算 / bcrypt 登录 / JSON 快照，前端整套移植</li></ul>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mb-5 font-mono text-[10px]">
+          <span class="chip px-1.5 py-0.5">PHP 8</span><span class="chip px-1.5 py-0.5">MySQL</span><span class="chip px-1.5 py-0.5">无依赖</span><span class="chip px-1.5 py-0.5">REST API</span><span class="chip px-1.5 py-0.5">bcrypt</span>
+        </div>
+        <div class="flex gap-2">
+          <a href="https://github.com/szboboxing/property-ledger-php" target="_blank" class="btn-s px-3 h-9 inline-flex items-center font-mono text-xs">GitHub ↗</a>
+          <a href="http://chinacn.gt.tc" target="_blank" class="btn-p px-3 h-9 inline-flex items-center font-mono text-xs">在线演示 ↗</a>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -319,7 +338,7 @@ test.keys(1024)</div>
     <div class="reveal mb-10"><p class="font-mono text-xs text-ac tracking-[.25em] mb-2 neon-t">// RELEASES</p><h2 class="text-2xl sm:text-3xl font-bold">版本下载</h2><p class="text-f1 text-sm mt-2">每个版本附 SHA-256 校验值，点击哈希一键复制。</p></div>
     <div class="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-4 reveal" id="rel-grid"></div>
     <div class="md:hidden relative pl-5 border-l reveal" style="border-color:var(--line)">
-      <div class="relative mb-7"><span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-ac"></span><h3 class="font-mono font-bold text-ac">v2.4 <span class="text-xs text-f2 font-normal">2026-10-14</span></h3><p class="text-xs text-f1 mt-1">浅色/暗色一键切换；改租金租期账单自动重算，已收款与补录账单锁定；新建租约租金必填</p><a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.4" target="_blank" class="font-mono text-xs text-ac">获取 ↗</a></div>
+      <div class="relative mb-7"><span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-ac"></span><h3 class="font-mono font-bold text-ac">v1.0 PHP <span class="text-xs text-f2 font-normal">2026-10-16</span></h3><p class="text-xs text-f1 mt-1">PHP 版首发：5 个文件传上免费虚拟主机，网页向导 30 秒完成部署；月付 / 季付自动出账、改租智能重算、bcrypt 安全登录、JSON 快照备份，手机电脑随时查账。在线演示 chinacn.gt.tc</p><a href="https://github.com/szboboxing/property-ledger-php/releases/tag/v1.0" target="_blank" class="font-mono text-xs text-ac">下载 ↓</a></div><div class="relative mb-7"><span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-ac"></span><h3 class="font-mono font-bold text-ac">v2.4 <span class="text-xs text-f2 font-normal">2026-10-14</span></h3><p class="text-xs text-f1 mt-1">浅色/暗色一键切换；改租金租期账单自动重算，已收款与补录账单锁定；新建租约租金必填</p><a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.4" target="_blank" class="font-mono text-xs text-ac">获取 ↗</a></div>
       <div class="relative mb-7"><span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-ac"></span><h3 class="font-mono font-bold text-ac">v1.4 <span class="text-xs text-f2 font-normal">2026-10-14</span></h3><p class="text-xs text-f1 mt-1">浅色/暗色一键切换；改租金租期账单自动重算，已收款与补录账单锁定；新建租约租金必填</p><a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.4" target="_blank" class="font-mono text-xs text-ac">下载 ↓</a></div>
       <div class="relative mb-7"><span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-ac"></span><h3 class="font-mono font-bold text-ac">v2.3 <span class="text-xs text-f2 font-normal">2026-10-13</span></h3><p class="text-xs text-f1 mt-1">同步 HTML 版：鎏金暗色界面；租期年数 1-20 年、租金递增（按比例/按金额）；批量结清新「账单当月」收款日期；报表按物业/月份汇总翻页。</p><a href="https://github.com/szboboxing/property-ledger/releases/tag/v2.3" target="_blank" class="font-mono text-xs text-ac">获取 ↗</a></div>
       <div class="relative mb-7"><span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-ac"></span><h3 class="font-mono font-bold text-ac">v1.3 <span class="text-xs text-f2 font-normal">2026-10-13</span></h3><p class="text-xs text-f1 mt-1">手机浏览器全面适配修复：窄屏列表不再被裁切、输入框不再自动放大、小屏按钮不再溢出、键盘遮挡缓解。</p><a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.3" target="_blank" class="font-mono text-xs text-ac">下载 ↓</a></div><div class="relative mb-7"><span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-ac"></span><h3 class="font-mono font-bold text-ac">v1.0.0 <span class="text-xs text-f2 font-normal">2026-10-12</span></h3><p class="text-xs text-f1 mt-1">物业管理台账 HTML 单文件版：两个文件双击即用，不装 Docker 不装数据库，PC/手机/平板全兼容；IndexedDB 本地存储 + 数据文件绑定（Chrome/Edge）防清缓存。</p><a href="https://github.com/szboboxing/property-ledger-html/releases/tag/v1.0.0" target="_blank" class="font-mono text-xs text-ac">下载 ↓</a></div>
@@ -360,12 +379,12 @@ test.keys(1024)</div>
     <div class="reveal mb-8"><p class="font-mono text-xs text-ac tracking-[.25em] mb-2 neon-t">// OPERATOR</p><h2 class="text-2xl sm:text-3xl font-bold">关于我</h2></div>
     <div class="grid lg:grid-cols-5 gap-8 reveal">
       <div class="lg:col-span-3 text-f1 leading-relaxed space-y-4">
-        <p>独立开发者，主力在 Windows 平台做实用小工具。白天和表格、文件名、COM 自动化打交道，晚上维护六个开源项目。相信工具应该解决具体问题，而不是炫技。</p>
+        <p>独立开发者，主力在 Windows 平台做实用小工具。白天和表格、文件名、COM 自动化打交道，晚上维护七个开源项目。相信工具应该解决具体问题，而不是炫技。</p>
         <p>这些项目都来自我自己的工作流：批量重命名是受够了手动改文件夹，规约上传是 WPS 表格比对太费眼，鼠标手势是想让复制粘贴截图不用满屏找按钮。鼠标Pro 则在开源 PourInput 基础上做全能增强，把按键映射、手势和系统工具收进一个面板；物业管理台账来自真实房东的手工 Excel 对账——每月翻表算欠款太痛，就写了套自动出账的系统。自己用顺手了，就开源出来。</p>
       </div>
       <div class="lg:col-span-2 g p-5 font-mono text-sm">
         <p class="text-f2 mb-3">// status.exe</p>
-        <div class="space-y-1.5 text-f1"><div><span class="text-ac">current:</span> v3.18 / V2.5 / v1.0.1 / v1.4 / v2.4 五线维护</div><div><span class="text-ac2">next:</span> 收集反馈，规划下一版</div><div><span class="text-ac">open:</span> issue / PR welcome</div><div><span class="text-ac2">coffee:</span> 右下角打赏入口</div></div>
+        <div class="space-y-1.5 text-f1"><div><span class="text-ac">current:</span> v3.18 / V2.5 / v1.0.1 / v1.4 / v2.4 / v1.0 六线维护</div><div><span class="text-ac2">next:</span> 收集反馈，规划下一版</div><div><span class="text-ac">open:</span> issue / PR welcome</div><div><span class="text-ac2">coffee:</span> 右下角打赏入口</div></div>
       </div>
     </div>
   </section>
@@ -406,6 +425,7 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 let tt2;function pop(m){toast.textContent=m;toast.classList.remove('hidden');toast.classList.add('grid');clearTimeout(tt2);tt2=setTimeout(()=>{toast.classList.add('hidden');toast.classList.remove('grid')},1800)}
 const RELS=[
+ {v:'v1.0',d:'2026-10-16',s:'物业管理台账 PHP 版首发：5 个文件传上免费虚拟主机，网页向导 30 秒完成部署；月付 / 季付自动出账、改租智能重算、bcrypt 安全登录、JSON 快照备份，手机电脑随时查账。在线演示 chinacn.gt.tc',sha:'',url:'https://github.com/szboboxing/property-ledger-php/releases/tag/v1.0'},
  {v:'v2.4',d:'2026-10-14',s:'浅色 / 暗色主题一键切换（偏好持久化、首屏防白闪）；新建租约月租金必填；编辑起租日 / 到期日 / 租金 / 递增 / 付租日 / 月付季付后，预览确认即按新条款重算未付账单（杂费保留）、删除失效账单、补建缺失账期；已有收款（含部分收款）与人工补录账单锁定不动；挂杂费的失效账单阻止保存。无数据库结构变更。',sha:'',url:'https://github.com/szboboxing/property-ledger/releases/tag/v2.4',hot:true},
  {v:'v1.4',d:'2026-10-15',s:'同步 Docker v2.4：浅色主题一键切换（登录页 / 顶栏 / 侧栏，偏好持久化）；月租金新建必填；修改租金、租期等关键内容后账单自动重算（重算 / 删除 / 补建，已收款与补录账单锁定，挂杂费阻止保存）；修复移动端"更多"按钮点击无反应（go 函数崩溃导致手机端物业/房间/租客/设置等功能全部无法访问）。',sha:'F2BF09A87258F029623A581300C19849DF0E00653A52C158ACDA99BCDDC6AB84',url:'https://github.com/szboboxing/property-ledger-html/releases/tag/v1.4'},
  {v:'v2.3',d:'2026-10-13',s:'同步 HTML 版：鎏金暗色界面（下拉深底金字、毛玻璃卡片）；租期年数 1-20 年、租金递增（按比例/按金额）；批量结清新增「账单当月」收款日期；报表按物业汇总 → 按月份汇总（12 个月翻页）。',sha:'',url:'https://github.com/szboboxing/property-ledger/releases/tag/v2.3'},
@@ -523,7 +543,8 @@ mf.onsubmit=e=>{e.preventDefault();const n=mn.value.trim(),t=mt.value.trim();if(
   ];
   var APPS=[
     {n:'收音机',e:'Radio Box',c:'#F59E0B',u:'radio.html',r:true},
-    {n:'物业台账',e:'Property Ledger',c:'#D9B57D',u:'property-ledger.html',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'}
+    {n:'物业台账',e:'Property Ledger',c:'#D9B57D',u:'property-ledger.html',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'},
+    {n:'物业PHP',e:'Ledger PHP',c:'#D9B57D',u:'http://chinacn.gt.tc',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'}
   ];
   var page=(location.pathname.split('/').pop()||'index.html').split('?')[0];
   var PALETTE='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1-2-2c0-1.1.9-2 2-2h2.5a4.5 4.5 0 0 0 4.5-4.5A10 10 0 0 0 12 2z"/></svg>';

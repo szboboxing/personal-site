@@ -169,8 +169,8 @@
           <span class="text-accent whitespace-nowrap">真实痛点</span><br class="hidden sm:block"><span class="whitespace-nowrap">的小工具</span>
         </h1>
         <p class="text-fg1 leading-relaxed text-base sm:text-lg max-w-xl mb-8">
-          六个长期维护的开源项目：一个把批量重命名和表格规约自动化，
-          一个让鼠标手势更好用，一个把鼠标按键映射和系统增强做到极致，一个帮房东记账催租，一个打开就听的网页收音机，还有一个把物业管理台账重构成纯 HTML 单文件版，双击即用不装 Docker。不追技术时髦，只做能省下别人时间的东西。
+          七个长期维护的开源项目：一个把批量重命名和表格规约自动化，
+          一个让鼠标手势更好用，一个把鼠标按键映射和系统增强做到极致，一个帮房东记账催租，一个打开就听的网页收音机，还有一个把物业管理台账重构成纯 HTML 单文件版，双击即用不装 Docker；PHP 版再补一个零成本上云选择：免费虚拟主机就能跑，手机电脑随时查账。不追技术时髦，只做能省下别人时间的东西。
         </p>
         <div class="flex flex-wrap gap-3">
           <a href="#projects" class="group inline-flex items-center gap-2 px-6 h-12 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
@@ -186,9 +186,9 @@
         <div class="mt-10 flex flex-wrap items-center gap-6 font-mono text-sm">
           <div class="flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-            <span class="text-fg1">6 projects · active</span>
+            <span class="text-fg1">7 projects · active</span>
           </div>
-          <div class="text-fg2">latest <span class="text-accent">v1.3</span> / <span class="text-accent">v3.18</span> / <span class="text-accent">V2.5</span> / <span class="text-accent">v1.0.1</span> / <span class="text-accent">v1.4</span> / <span class="text-accent">v2.4</span></div>
+          <div class="text-fg2">latest <span class="text-accent">v1.3</span> / <span class="text-accent">v3.18</span> / <span class="text-accent">V2.5</span> / <span class="text-accent">v1.0.1</span> / <span class="text-accent">v1.4</span> / <span class="text-accent">v2.4</span> / <span class="text-accent">v1.0</span></div>
           <div class="text-fg2">围观 <span id="views-count" class="text-accent">0</span></div>
         </div>
       </div>
@@ -278,7 +278,7 @@
   <section id="projects" class="py-16 sm:py-20 border-t border-edge">
     <div class="reveal mb-10">
       <p class="font-mono text-xs text-accent tracking-widest mb-2">// PROJECTS</p>
-      <h2 class="text-2xl sm:text-3xl font-bold">六个长期维护的开源工具</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold">七个长期维护的开源工具</h2>
     </div>
 
     <!-- 并排双卡片 -->
@@ -605,6 +605,59 @@
           </a>
         </div>
       </article>
+
+      <!-- 项目 07 -->
+      <article class="reveal rounded-lg border border-edge bg-bg1 p-7 card-hov flex flex-col">
+        <div class="flex items-baseline gap-3 mb-3">
+          <span class="font-mono text-5xl font-bold text-edge leading-none select-none">07</span>
+          <div>
+            <h3 class="text-xl font-bold">物业管理台账 PHP 版</h3>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v1.0</span>
+              <span class="font-mono text-xs text-fg2">2026-10-16</span>
+            </div>
+          </div>
+        </div>
+        <p class="text-fg1 text-sm mb-5">把台账搬上免费虚拟主机：5 个文件 FTP 上传，网页向导 30 秒装好；PHP + MySQL，手机电脑打开网页就能记账催租。</p>
+
+        <div class="space-y-4 mb-5 flex-1">
+          <div>
+            <p class="font-mono text-xs text-fg2 mb-1.5">PAIN</p>
+            <ul class="space-y-1 text-xs text-fg1">
+              <li>· HTML 单机版数据锁在浏览器，出门用手机查不了账</li>
+              <li>· Docker 版要常驻机器，装环境配数据库自己搞不定</li>
+              <li>· 买服务器一年几百块，只为记账太不划算</li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-mono text-xs text-accent mb-1.5">FIX</p>
+            <ul class="space-y-1 text-xs text-fg0">
+              <li>▸ 原生 PHP 8 + MySQL，无框架无依赖，免费虚拟主机直接跑</li>
+              <li>▸ 网页向导自动测连接、建 10 张表、建管理员，30 秒上线</li>
+              <li>▸ 自动出账 / 改租智能重算 / bcrypt 登录 / JSON 快照，前端整套移植</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5 mb-5 font-mono text-[10px]">
+          <span class="px-1.5 py-0.5 rounded bg-bg2 text-fg1 border border-edge">PHP 8</span>
+          <span class="px-1.5 py-0.5 rounded bg-bg2 text-fg1 border border-edge">MySQL</span>
+          <span class="px-1.5 py-0.5 rounded bg-bg2 text-fg1 border border-edge">无依赖</span>
+          <span class="px-1.5 py-0.5 rounded bg-bg2 text-fg1 border border-edge">REST API</span>
+          <span class="px-1.5 py-0.5 rounded bg-bg2 text-fg1 border border-edge">bcrypt</span>
+        </div>
+
+        <div class="flex gap-2">
+          <a href="https://github.com/szboboxing/property-ledger-php" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-1.5 px-3 h-9 rounded border border-edge text-fg0 font-mono text-xs hover:border-accent hover:text-accent transition">
+            GitHub <span class="arrow-move">↗</span>
+          </a>
+          <a href="http://chinacn.gt.tc" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-1.5 px-3 h-9 rounded border border-accent bg-accent text-bg0 font-mono text-xs hover:opacity-90 transition">
+            在线演示 ↗
+          </a>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -619,6 +672,17 @@
     <!-- 桌面端：横向时间线网格（md 3 列，lg 5 列） -->
     <div class="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-4 reveal">
       <!-- v2.4 Property Ledger -->
+      <div class="rounded-lg border border-accent bg-bg1 p-5 flex flex-col card-hov">
+        <span class="w-2 h-2 rounded-full bg-accent mb-3"></span>
+        <h3 class="font-mono font-bold text-accent text-base">v1.0 PHP</h3>
+        <span class="font-mono text-[10px] text-fg2 mb-2">2026-10-16</span>
+        <p class="text-xs text-fg1 leading-relaxed mb-3 flex-1">PHP 版首发：5 个文件传上免费虚拟主机，网页向导 30 秒完成部署；月付 / 季付自动出账、改租智能重算、bcrypt 安全登录、JSON 快照备份，手机电脑随时查账。在线演示 chinacn.gt.tc</p>
+        <div class="mb-3"></div>
+        <a href="https://github.com/szboboxing/property-ledger-php/releases/tag/v1.0" target="_blank" rel="noopener"
+           class="group inline-flex items-center justify-center px-3 h-8 border border-edge bg-accent text-bg0 font-mono text-xs hover:opacity-90 transition">
+          下载 ↓
+        </a>
+      </div>
       <div class="rounded-lg border border-accent bg-bg1 p-5 flex flex-col card-hov">
         <span class="w-2 h-2 rounded-full bg-accent mb-3"></span>
         <h3 class="font-mono font-bold text-accent text-base">v2.4</h3>
@@ -831,6 +895,16 @@
       <div class="relative mb-7">
         <span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-accent"></span>
         <div class="flex flex-wrap items-baseline gap-2 mb-1">
+          <h3 class="font-mono font-bold text-accent">v1.0 PHP</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-16</span>
+        </div>
+        <p class="text-xs text-fg1 mb-2">PHP 版首发：5 个文件传上免费虚拟主机，网页向导 30 秒完成部署；月付 / 季付自动出账、改租智能重算、bcrypt 安全登录、JSON 快照备份，手机电脑随时查账。在线演示 chinacn.gt.tc</p>
+        <a href="https://github.com/szboboxing/property-ledger-php/releases/tag/v1.0" target="_blank" rel="noopener"
+           class="font-mono text-xs text-accent">下载 ↓</a>
+      </div>
+      <div class="relative mb-7">
+        <span class="absolute -left-[22px] top-1.5 w-2.5 h-2.5 rounded-full bg-accent"></span>
+        <div class="flex flex-wrap items-baseline gap-2 mb-1">
           <h3 class="font-mono font-bold text-accent">v2.4</h3>
           <span class="font-mono text-xs text-fg2">2026-10-14</span>
         </div>
@@ -1021,7 +1095,7 @@
       <div class="lg:col-span-3">
         <p class="text-fg1 leading-relaxed mb-4">
           独立开发者，主力在 Windows 平台做实用小工具。白天和表格、文件名、COM 自动化打交道，
-          晚上维护六个开源项目。相信工具应该解决具体问题，而不是炫技。
+          晚上维护七个开源项目。相信工具应该解决具体问题，而不是炫技。
         </p>
         <p class="text-fg1 leading-relaxed mb-6">
           这些项目都来自我自己的工作流：批量重命名是受够了手动改文件夹，
@@ -1034,7 +1108,7 @@
       <div class="lg:col-span-2 rounded-lg border border-edge bg-bg1 p-5 font-mono text-sm">
         <p class="text-fg2 mb-3">// status.txt</p>
         <div class="space-y-1.5 text-fg1">
-          <div><span class="text-accent">current:</span> v3.18 / V2.5 / v1.0.1 / v1.4 / v2.4 五线维护</div>
+          <div><span class="text-accent">current:</span> v3.18 / V2.5 / v1.0.1 / v1.4 / v2.4 / v1.0 六线维护</div>
           <div><span class="text-accent">next:</span> 收集反馈，规划下一版</div>
           <div><span class="text-accent">open:</span> issue / PR welcome</div>
           <div><span class="text-accent">coffee:</span> 右下角打赏入口</div>
@@ -1325,7 +1399,8 @@ document.getElementById('msg-form').addEventListener('submit', (e) => {
   ];
   var APPS=[
     {n:'收音机',e:'Radio Box',c:'#F59E0B',u:'radio.html',r:true},
-    {n:'物业台账',e:'Property Ledger',c:'#D9B57D',u:'property-ledger.html',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'}
+    {n:'物业台账',e:'Property Ledger',c:'#D9B57D',u:'property-ledger.html',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'},
+    {n:'物业PHP',e:'Ledger PHP',c:'#D9B57D',u:'http://chinacn.gt.tc',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'}
   ];
   var page=(location.pathname.split('/').pop()||'index.html').split('?')[0];
   var PALETTE='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1-2-2c0-1.1.9-2 2-2h2.5a4.5 4.5 0 0 0 4.5-4.5A10 10 0 0 0 12 2z"/></svg>';

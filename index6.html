@@ -210,7 +210,7 @@
           我做 Windows 桌面工具，<br class="hidden sm:block">解决自己遇到的麻烦事。
         </h1>
         <p class="text-fg1 leading-relaxed mb-7">
-          六个长期维护的开源项目：一个把批量重命名和表格规约自动化，一个让鼠标手势更好用，一个把鼠标按键映射和系统增强做到极致，一个帮房东记账催租，一个打开就听的网页收音机，还有一个把物业管理台账重构成纯 HTML 单文件版，双击即用不装 Docker。
+          七个长期维护的开源项目：一个把批量重命名和表格规约自动化，一个让鼠标手势更好用，一个把鼠标按键映射和系统增强做到极致，一个帮房东记账催租，一个打开就听的网页收音机，还有一个把物业管理台账重构成纯 HTML 单文件版，双击即用不装 Docker；PHP 版再补一个零成本上云选择：免费虚拟主机就能跑，手机电脑随时查账。
           不追技术时髦，只做能省下别人时间的东西。
         </p>
         <div class="flex flex-wrap gap-3">
@@ -226,7 +226,7 @@
         <!-- 状态小卡 -->
         <div class="mt-8 grid grid-cols-3 gap-3 font-mono text-center">
           <div class="border border-edge rounded p-3">
-            <div class="text-2xl font-bold text-accent">06</div>
+            <div class="text-2xl font-bold text-accent">07</div>
             <div class="text-xs text-fg2 mt-1">projects</div>
           </div>
           <div class="border border-edge rounded p-3">
@@ -246,7 +246,7 @@
   <section id="projects" class="py-16 sm:py-20 border-t border-edge">
     <div class="reveal mb-10">
       <p class="font-mono text-xs text-accent tracking-widest mb-2">// 01 — PROJECT</p>
-      <h2 class="text-2xl sm:text-3xl font-bold">做的六个东西</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold">做的七个东西</h2>
     </div>
 
     <!-- 项目卡 01（真实数据） -->
@@ -597,6 +597,58 @@
         </a>
       </div>
     </article>
+
+    <!-- 项目 07 -->
+    <article class="reveal relative rounded-lg border border-edge bg-bg1 p-7 sm:p-9 mb-8 card-hov">
+      <span class="absolute -top-5 right-6 font-mono text-6xl font-bold text-edge leading-none select-none">07</span>
+
+      <div class="flex flex-wrap items-baseline gap-3 mb-2">
+        <h3 class="text-xl sm:text-2xl font-bold">物业管理台账 PHP 版</h3>
+        <span class="font-mono text-xs px-2 py-0.5 rounded border border-accent text-accent">v1.0</span>
+        <span class="font-mono text-xs text-fg2">2026-10-16</span>
+      </div>
+      <p class="text-fg1 mb-6">把台账搬上免费虚拟主机：5 个文件 FTP 上传，网页向导 30 秒装好；PHP + MySQL，手机电脑打开网页就能记账催租。</p>
+
+      <!-- 痛点 → 解法 双列对照 -->
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-4 mb-7">
+        <div>
+          <p class="font-mono text-xs text-fg2 mb-3">// PAIN 痛点</p>
+          <ul class="space-y-2.5 text-sm text-fg1">
+            <li class="flex gap-2"><span class="text-fg2">·</span>HTML 单机版数据锁在浏览器，出门用手机查不了账</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>Docker 版要常驻机器，装环境配数据库自己搞不定</li>
+            <li class="flex gap-2"><span class="text-fg2">·</span>买服务器一年几百块，只为记账太不划算</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-xs text-accent mb-3">// FIX 解法</p>
+          <ul class="space-y-2.5 text-sm text-fg0">
+            <li class="flex gap-2"><span class="text-accent">▸</span>原生 PHP 8 + MySQL，无框架无依赖，免费虚拟主机直接跑</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>网页向导自动测连接、建 10 张表、建管理员，30 秒上线</li>
+            <li class="flex gap-2"><span class="text-accent">▸</span>自动出账 / 改租智能重算 / bcrypt 登录 / JSON 快照，前端整套移植</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 技术标签 -->
+      <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">PHP 8</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">MySQL</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">无依赖</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">REST API</span>
+        <span class="px-2 py-1 rounded bg-bg2 text-fg1 border border-edge">bcrypt</span>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="https://github.com/szboboxing/property-ledger-php" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-edge text-fg0 font-mono text-sm hover:border-accent hover:text-accent transition">
+          GitHub <span class="arrow-move">↗</span>
+        </a>
+        <a href="http://chinacn.gt.tc" target="_blank" rel="noopener"
+           class="group inline-flex items-center gap-2 px-4 h-10 rounded border border-accent bg-accent text-bg0 font-mono text-sm hover:opacity-90 transition">
+          在线演示 <span class="arrow-move">↗</span>
+        </a>
+      </div>
+    </article>
   </section>
 
   <!-- ============ 版本下载 ============ -->
@@ -608,6 +660,22 @@
     </div>
 
     <div class="relative pl-6 border-l border-edge reveal">
+      <!-- v1.0 物业管理台账 PHP 版 -->
+      <div class="relative mb-9">
+        <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-accent ring-4 ring-bg0"></span>
+        <div class="flex flex-wrap items-baseline gap-3 mb-1">
+          <h3 class="font-mono font-bold text-lg text-accent">v1.0 PHP</h3>
+          <span class="font-mono text-xs text-fg2">2026-10-16</span>
+          <span class="font-mono text-xs px-2 py-0.5 rounded border border-edge text-fg1">物业管理台账 PHP 版</span>
+        </div>
+        <p class="text-sm text-fg1 mb-3">PHP 版首发：5 个文件传上免费虚拟主机，网页向导 30 秒完成部署；月付 / 季付自动出账、改租智能重算、bcrypt 安全登录、JSON 快照备份，手机电脑随时查账。在线演示 chinacn.gt.tc</p>
+        <div>
+          <a href="https://github.com/szboboxing/property-ledger-php/releases/tag/v1.0" target="_blank" rel="noopener"
+             class="group inline-flex items-center gap-2 px-4 h-9 rounded border border-accent text-accent font-mono text-sm hover:bg-accent hover:text-bg0 transition">
+            下载 <span class="arrow-move">↓</span>
+          </a>
+        </div>
+      </div>
       <!-- v2.4 物业管理台账 -->
       <div class="relative mb-9">
         <span class="absolute -left-[27px] top-1.5 w-3 h-3 rounded-full bg-accent ring-4 ring-bg0"></span>
@@ -979,7 +1047,7 @@
       <div class="lg:col-span-2">
         <p class="text-fg1 leading-relaxed mb-4">
           独立开发者，主力在 Windows 平台做实用小工具。白天和表格、文件名、COM 自动化打交道，
-          晚上维护六个开源项目。相信工具应该解决具体问题，而不是炫技。
+          晚上维护七个开源项目。相信工具应该解决具体问题，而不是炫技。
         </p>
         <p class="text-fg1 leading-relaxed mb-6">
           这些项目都来自我自己的工作流：批量重命名是受够了手动改文件夹，
@@ -998,7 +1066,7 @@
       <div class="rounded-lg border border-edge bg-bg1 p-5 font-mono text-sm">
         <p class="text-fg2 mb-3">// status.txt</p>
         <div class="space-y-1.5 text-fg1">
-          <div><span class="text-accent">current:</span> v3.18 / V2.5 / v1.0.1 / v1.4 / v2.4 五线维护</div>
+          <div><span class="text-accent">current:</span> v3.18 / V2.5 / v1.0.1 / v1.4 / v2.4 / v1.0 六线维护</div>
           <div><span class="text-accent">next:</span> 收集反馈，规划下一版</div>
           <div><span class="text-accent">open:</span> issue / PR welcome</div>
           <div><span class="text-accent">coffee:</span> 右下角打赏入口</div>
@@ -1131,7 +1199,7 @@ mMenu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mMenu.c
 const lines = [
   '独立开发者 / Windows 工具作者',
   '做解决真实痛点的小工具',
-  '六个项目 · 一个原则：能跑、好用、不装'
+  '七个项目 · 一个原则：能跑、好用、不装'
 ];
 const tw = document.getElementById('typewriter');
 let li=0, ci=0, deleting=false;
@@ -1368,7 +1436,8 @@ renderMsgs();
   ];
   var APPS=[
     {n:'收音机',e:'Radio Box',c:'#F59E0B',u:'radio.html',r:true},
-    {n:'物业台账',e:'Property Ledger',c:'#D9B57D',u:'property-ledger.html',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'}
+    {n:'物业台账',e:'Property Ledger',c:'#D9B57D',u:'property-ledger.html',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'},
+    {n:'物业PHP',e:'Ledger PHP',c:'#D9B57D',u:'http://chinacn.gt.tc',r:true,css:'background:rgba(217,181,125,.10);border-color:rgba(217,181,125,.45)'}
   ];
   var page=(location.pathname.split('/').pop()||'index.html').split('?')[0];
   var PALETTE='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1-2-2c0-1.1.9-2 2-2h2.5a4.5 4.5 0 0 0 4.5-4.5A10 10 0 0 0 12 2z"/></svg>';
