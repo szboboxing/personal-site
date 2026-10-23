@@ -529,7 +529,8 @@ mf.onsubmit=e=>{e.preventDefault();const n=mn.value.trim(),t=mt.value.trim();if(
     return b;
   }
   var desk=document.querySelector('#theme-toggle,#tt');
-  if(desk&&desk.parentNode)desk.parentNode.insertBefore(mkNavBtn(desk.className),desk);
+  var deskBox=desk&&(desk.previousElementSibling||desk.parentNode);
+  if(deskBox)deskBox.appendChild(mkNavBtn(desk.className));
   var mob=document.querySelector('#menu-btn,#mb');
   if(mob&&mob.parentNode)mob.parentNode.insertBefore(mkNavBtn(mob.className),mob);
 
