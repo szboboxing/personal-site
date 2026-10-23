@@ -136,6 +136,7 @@
         class="ml-1 w-8 h-8 grid place-items-center rounded border border-edge text-fg1 hover:text-accent hover:border-accent transition">
         <svg id="icon-moon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg id="icon-sun" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg id="icon-sys" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
       </button>
     </div>
     <button id="menu-btn" class="md:hidden w-8 h-8 grid place-items-center text-fg1" aria-label="菜单">
@@ -1173,23 +1174,26 @@
 
 <script>
 /* ===== 主题切换 ===== */
+const MQ = window.matchMedia('(prefers-color-scheme: dark)');
+const TK = 'site-theme';
+function themeMode() { return localStorage.getItem(TK) || 'system'; }
+function effTheme(m) { return m === 'system' ? (MQ.matches ? 'dark' : 'light') : m; }
+function paintTheme(m) {
+  document.documentElement.dataset.theme = effTheme(m);
+  document.getElementById('icon-moon').classList.toggle('hidden', m !== 'dark');
+  document.getElementById('icon-sun').classList.toggle('hidden', m !== 'light');
+  document.getElementById('icon-sys').classList.toggle('hidden', m !== 'system');
+  document.getElementById('theme-toggle').title = '明暗：' + (m === 'system' ? '跟随系统' : m === 'dark' ? '深色' : '浅色');
+}
 function toggleTheme() {
-  const html = document.documentElement;
-  const isDark = html.dataset.theme === 'dark';
-  html.dataset.theme = isDark ? 'light' : 'dark';
-  localStorage.setItem('site-theme', html.dataset.theme);
-  document.getElementById('icon-moon').classList.toggle('hidden', !isDark);
-  document.getElementById('icon-sun').classList.toggle('hidden', isDark);
+  const c = themeMode();
+  const n = c === 'system' ? 'light' : c === 'light' ? 'dark' : 'system';
+  localStorage.setItem(TK, n);
+  paintTheme(n);
 }
 document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-// 记忆
-const savedTheme = localStorage.getItem('site-theme');
-if (savedTheme) {
-  document.documentElement.dataset.theme = savedTheme;
-  const isDark = savedTheme === 'dark';
-  document.getElementById('icon-moon').classList.toggle('hidden', !isDark);
-  document.getElementById('icon-sun').classList.toggle('hidden', isDark);
-}
+paintTheme(themeMode());
+MQ.addEventListener('change', () => { if (themeMode() === 'system') paintTheme('system'); });
 
 /* ===== 汉堡菜单 ===== */
 document.getElementById('menu-btn').addEventListener('click', () => {
