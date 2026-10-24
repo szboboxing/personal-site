@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>网络收音机 v1.3 · 杰克陈</title>
+<title>音波陪伴（网络收音机） v1.4 · 杰克陈</title>
 <style>
 :root{--bg:#0d1117;--card:#161d27;--line:#26313f;--t:#e6ebf0;--dim:#8b9bb0;
 --acc:#7ee787;--cyan:#2f81f7;--yel:#f2cc60;--red:#f47067}
@@ -85,8 +85,8 @@ border-radius:10px;padding:3px 10px;white-space:nowrap}
 </head>
 <body>
 <header>
-  <h1>🎵 网络收音机</h1>
-  <span class="ver">v1.3</span>
+  <h1>🎵 音波陪伴（网络收音机）</h1>
+  <span class="ver">v1.4</span>
   <a class="ghub" href="index.html">← 返回首页</a>
   <a class="ghub" href="https://github.com/szboboxing/Radio-Box" target="_blank" rel="noopener">GitHub ↗</a>
 </header>
@@ -126,7 +126,7 @@ border-radius:10px;padding:3px 10px;white-space:nowrap}
 <div id="list"></div>
 
 <footer>
-  <div class="ft1">杰克陈 · 网络收音机 v1.3</div>
+  <div class="ft1">杰克陈 · 音波陪伴（网络收音机） v1.4</div>
   <nav>
     <b>作品集：</b>
     <a href="index.html">鎏金</a>
@@ -418,7 +418,7 @@ function msMeta(){
   if(!navigator.mediaSession)return;
   try{
     navigator.mediaSession.metadata=cur<0?null:new MediaMetadata(
-      {title:STATIONS[cur].n,artist:'网络收音机 v1.3'});
+      {title:STATIONS[cur].n,artist:'音波陪伴（网络收音机） v1.4'});
   }catch(e){}
 }
 if(navigator.mediaSession){
