@@ -34,7 +34,7 @@
 |---|---|
 | [404.html](404.html) | 404 页面，含八主题风格的 APPS 导航 |
 | [property-ledger.html](property-ledger.html) | 物业管理台账在线版（HTML 单文件版） |
-| [radio.html](radio.html) | 音波陪伴（网络收音机） v1.4 在线版 |
+| [radio.html](radio.html) | 音波陪伴（网络收音机） v1.5 在线版 |
 | [switcher-preview.html](switcher-preview.html) | 风格切换器两款方案预览 |
 
 ## 收录作品（7 个）
@@ -46,7 +46,7 @@
 | 物业管理台账 PHP 版 | v1.0 | 2026-10-16 | [property-ledger-php](https://github.com/szboboxing/property-ledger-php) · [在线演示](http://chinacn.gt.tc) |
 | 下载流程优化工具 | v3.18 | 2026-09-25 | [download-optimizer](https://github.com/szboboxing/download-optimizer) |
 | 鼠标手势动作小工具 | V2.5 | 2026-10-05 | [mouse-gesture-actions](https://github.com/szboboxing/mouse-gesture-actions) |
-| 音波陪伴（网络收音机） | v1.4 | 2026-10-24 | [Radio-Box](https://github.com/szboboxing/Radio-Box) |
+| 音波陪伴（网络收音机） | v1.5 | 2026-10-24 | [Radio-Box](https://github.com/szboboxing/Radio-Box) |
 | 鼠标Pro MousePro | v1.0.1 | 2026-10-08 | [MousePro](https://github.com/szboboxing/MousePro) |
 
 ## 技术栈
