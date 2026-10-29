@@ -45,7 +45,7 @@
 | 物业管理台账 HTML 单文件版 | v1.4 | 2026-10-14 | [property-ledger-html](https://github.com/szboboxing/property-ledger-html) |
 | 物业管理台账 PHP 版 | v1.0 | 2026-10-16 | [property-ledger-php](https://github.com/szboboxing/property-ledger-php) · [在线演示](http://chinacn.gt.tc) |
 | 下载流程优化工具 | v3.18 | 2026-09-25 | [download-optimizer](https://github.com/szboboxing/download-optimizer) |
-| 鼠标手势动作小工具 | V2.5 | 2026-10-05 | [mouse-gesture-actions](https://github.com/szboboxing/mouse-gesture-actions) |
+| 鼠标手势动作小工具 | V2.8.0 | 2026-10-29 | [mouse-gesture-actions](https://github.com/szboboxing/mouse-gesture-actions) |
 | 音波陪伴（网络收音机） | v1.5 | 2026-10-24 | [Radio-Box](https://github.com/szboboxing/Radio-Box) |
 | 鼠标Pro MousePro | v1.0.1 | 2026-10-08 | [MousePro](https://github.com/szboboxing/MousePro) |
 
